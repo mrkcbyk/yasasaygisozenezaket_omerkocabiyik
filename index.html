@@ -1,0 +1,2650 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#a63b75">
+<title>Yaşa Saygı, Söze Nezaket | Türkçe ve Türk Kültürü Dersi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:ital,wght@0,600;0,700;0,800;0,900;1,700&display=swap&subset=latin,latin-ext" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root {
+  --ink: #30233d;
+  --teal: #9d4edd;
+  --teal-lt: #f3e8ff;
+  --amber: #f08a9d;
+  --amber-lt: #fff1f5;
+  --rose: #a63b75;
+  --rose-lt: #ffe4e6;
+  --violet: #6d28d9;
+  --violet-lt: #ede9fe;
+  --emerald: #059669;
+  --emerald-lt: #d1fae5;
+  --sky: #0284c7;
+  --sky-lt: #e0f2fe;
+  --paper: #fffafd;
+  --bg: #fff1f5;
+  --fh: 'Baloo 2', cursive, sans-serif;
+  --fb: 'Nunito', system-ui, -apple-system, sans-serif;
+  --cur-arrow: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M5 3 L5 24 L11 18.5 L15 28 L19 26.3 L15 17 L23 17 Z' fill='%23f08a9d' stroke='%2330233d' stroke-width='2.2' stroke-linejoin='round'/></svg>") 5 3, auto;
+  --cur-hand: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'><path d='M5 3 L5 24 L11 18.5 L15 28 L19 26.3 L15 17 L23 17 Z' fill='%23a63b75' stroke='%23ffffff' stroke-width='2.2' stroke-linejoin='round'/><circle cx='26' cy='7' r='3.5' fill='%23f08a9d' stroke='%2330233d' stroke-width='1.6'/></svg>") 5 3, pointer;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { font-size: clamp(12px, 0.55vw + 1.15vh, 20px); }
+html, body {
+  margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+  background: var(--bg); color: var(--ink); font-family: var(--fb);
+  font-weight: 700; user-select: none; -webkit-user-select: none;
+  touch-action: manipulation; cursor: var(--cur-arrow);
+}
+button, a, .clk, [role=button], .drg, .slot, .dial-btn, .card3d, .month-cell, .candle-spot { cursor: var(--cur-hand); }
+input[type=text] { cursor: text; }
+button { font-family: inherit; }
+h1, h2, h3, h4 { font-family: var(--fh); font-weight: 800; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+
+/* 3D Arka Plan Tuvali */
+#bg-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+  background: radial-gradient(circle at 18% 18%, #fff1f5 0%, #f3e8ff 55%, #fce7f3 100%);
+}
+
+/* Sol Üst Logo ve Yedek Rozet */
+#logo-wrap {
+  position: fixed; left: 0.7rem; top: 0.35rem; z-index: 70;
+  display: flex; align-items: center; gap: 0.4rem; pointer-events: none;
+}
+#logo {
+  height: 2.6rem; width: auto; max-width: 9.5rem; object-fit: contain;
+  filter: drop-shadow(0 0.12rem 0 rgba(30,41,59,0.25));
+}
+#logo-fallback {
+  display: none; align-items: center; gap: 0.35rem;
+  background: linear-gradient(135deg, #e11d48, #be123c); color: #fff;
+  padding: 0.25rem 0.7rem; border-radius: 999px; border: 0.14rem solid var(--ink);
+  box-shadow: 0 0.15rem 0 var(--ink); font-family: var(--fh); font-size: 0.85rem;
+}
+
+/* Ana Uygulama İskeleti */
+#app {
+  position: fixed; inset: 0; z-index: 2;
+  width: 100vw; height: 100vh; height: 100dvh;
+  display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+/* Üst Bar */
+#top {
+  grid-row: 1; display: grid;
+  grid-template-columns: minmax(7rem, 10rem) 1fr auto;
+  align-items: center; gap: 0.5rem; padding: 0.35rem 0.8rem;
+  background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px);
+  border-bottom: 0.16rem solid var(--ink); min-height: 3.3rem;
+}
+#stagepill {
+  justify-self: center; display: flex; align-items: center; gap: 0.55rem;
+  background: #fff; border: 0.15rem solid var(--ink); border-radius: 999px;
+  box-shadow: 0 0.16rem 0 var(--ink); padding: 0.2rem 0.9rem;
+  font-family: var(--fh); font-weight: 800; min-width: 0; max-width: 100%;
+}
+#steps { display: flex; gap: 0.25rem; }
+.step {
+  width: 0.85rem; height: 0.85rem; border-radius: 50%;
+  border: 0.12rem solid var(--ink); background: #e2e8f0; transition: 0.25s;
+}
+.step.on { background: var(--amber); transform: scale(1.28); }
+.step.done { background: var(--emerald); }
+#stagelabel { font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+
+#stats { display: flex; gap: 0.38rem; align-items: center; }
+.stat {
+  display: flex; align-items: center; gap: 0.25rem;
+  background: #fff; border: 0.15rem solid var(--ink); border-radius: 999px;
+  box-shadow: 0 0.15rem 0 var(--ink); padding: 0.15rem 0.65rem;
+  font-weight: 800; font-size: 0.95rem; white-space: nowrap;
+}
+.stat.bump { animation: bump 0.45s; }
+.stat.hurt { animation: shake 0.4s; background: var(--rose-lt); }
+@keyframes bump { 40% { transform: scale(1.22); background: var(--amber-lt); } }
+@keyframes shake { 20%, 60% { transform: translateX(-0.35rem); } 40%, 80% { transform: translateX(0.35rem); } }
+
+.iconbtn {
+  width: 2.15rem; height: 2.15rem; border-radius: 50%;
+  border: 0.15rem solid var(--ink); background: var(--amber);
+  box-shadow: 0 0.15rem 0 var(--ink); font-size: 1rem; padding: 0;
+  display: flex; align-items: center; justify-content: center; transition: 0.1s;
+}
+.iconbtn:active { transform: translateY(0.12rem); box-shadow: none; }
+
+/* Yönerge Çubuğu */
+#directive {
+  grid-row: 2; display: none; align-items: center; gap: 0.6rem;
+  margin: 0.35rem 0.7rem 0; padding: 0.38rem 0.75rem;
+  background: linear-gradient(90deg, #fef3c7, #fffbeb);
+  border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  box-shadow: 0.18rem 0.18rem 0 var(--ink);
+}
+#directive.on { display: flex; }
+.dtag {
+  background: var(--teal); color: #fff; border-radius: 0.5rem;
+  padding: 0.15rem 0.6rem; font-family: var(--fh); font-weight: 800;
+  letter-spacing: 0.04em; white-space: nowrap; border: 0.12rem solid var(--ink); font-size: 0.85rem;
+}
+#dir-text { flex: 1; font-size: 1rem; line-height: 1.25; font-weight: 800; color: var(--ink); }
+
+/* Ana Sahne Alanı */
+#main { grid-row: 3; position: relative; min-height: 0; width: 100%; height: 100%; overflow: hidden; }
+.screen { position: absolute; inset: 0; padding: 0.45rem 0.7rem; display: none; overflow: hidden; }
+.screen.on { display: block; animation: scrIn 0.32s ease-out; }
+@keyframes scrIn { from { opacity: 0; transform: translateY(0.8rem); } to { opacity: 1; transform: none; } }
+
+/* Alt Banner (Ömer Kocabıyık & Ülkem Yanımda) */
+.foot {
+  grid-row: 4; display: flex; justify-content: space-between; align-items: center;
+  gap: 0.5rem; padding: 0.25rem 0.8rem 0.35rem;
+  background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(6px);
+  border-top: 0.14rem solid var(--ink); z-index: 20;
+}
+.foot-left { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+.fpill {
+  font-family: var(--fh); font-size: 0.8rem; font-weight: 800;
+  letter-spacing: 0.04em; background: #fff; border: 0.14rem solid var(--ink);
+  border-radius: 999px; padding: 0.12rem 0.75rem;
+  box-shadow: 0 0.12rem 0 var(--ink); display: inline-flex; align-items: center; gap: 0.3rem;
+}
+.fpill.author { background: var(--amber-lt); color: #92400e; }
+.fpill.project { background: var(--rose-lt); color: #9f1239; }
+.fpill.course { background: var(--teal-lt); color: #115e59; }
+
+/* Ortak Kart, Buton ve Hoparlör Bileşenleri */
+.card {
+  background: var(--paper); border: 0.18rem solid var(--ink);
+  border-radius: 1.1rem; box-shadow: 0.24rem 0.24rem 0 var(--ink);
+  min-width: 0; min-height: 0; position: relative;
+}
+.btn {
+  font-family: var(--fh); font-weight: 800; color: #fff;
+  border: 0.16rem solid var(--ink); border-radius: 0.95rem;
+  box-shadow: 0 0.24rem 0 var(--ink); transition: transform 0.08s, box-shadow 0.08s, filter 0.15s;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.45rem; padding: 0.45rem 1.15rem; font-size: 1.05rem; text-decoration: none;
+}
+.btn:hover { filter: brightness(1.07); }
+.btn:active { transform: translateY(0.2rem); box-shadow: 0 0.04rem 0 var(--ink); }
+.btn:disabled { opacity: 0.5; pointer-events: none; }
+.btn-teal { background: var(--teal); }
+.btn-amber { background: var(--amber); color: var(--ink); }
+.btn-rose { background: var(--rose); }
+.btn-violet { background: var(--violet); }
+.btn-emerald { background: var(--emerald); }
+.btn-white { background: #fff; color: var(--ink); }
+
+.spk {
+  width: 2rem; height: 2rem; border-radius: 50%;
+  background: var(--amber); color: var(--ink); border: 0.14rem solid var(--ink);
+  box-shadow: 0 0.14rem 0 var(--ink); font-size: 0.92rem; padding: 0;
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+}
+.spk:hover { transform: scale(1.12) rotate(-6deg); }
+.spk.playing { background: var(--rose); color: #fff; animation: pls 0.5s ease infinite alternate; }
+.spk.sm { width: 1.65rem; height: 1.65rem; font-size: 0.78rem; }
+@keyframes pls { to { transform: scale(1.2); } }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  background: #fff; border: 0.14rem solid var(--ink); border-radius: 999px;
+  box-shadow: 0 0.14rem 0 var(--ink); padding: 0.12rem 0.75rem;
+  font-weight: 800; font-size: 0.9rem;
+}
+
+/* Aşama İskeleti */
+.sx {
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.45rem; height: 100%; width: 100%;
+}
+.shead { display: flex; gap: 0.5rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+.dots { display: flex; gap: 0.28rem; }
+.dots i {
+  width: 0.82rem; height: 0.82rem; border-radius: 50%;
+  border: 0.13rem solid var(--ink); background: #fff; display: inline-block;
+}
+.dots i.on { background: var(--amber); transform: scale(1.22); }
+.dots i.done { background: var(--emerald); }
+.sbody { min-height: 0; height: 100%; width: 100%; position: relative; overflow: hidden; }
+.fbar {
+  min-height: 2.35rem; display: flex; align-items: center; justify-content: center;
+  text-align: center; gap: 0.5rem; font-size: 0.98rem; font-weight: 800;
+  padding: 0.28rem 0.75rem; border-radius: 0.8rem;
+  border: 0.15rem solid var(--ink); background: #fff;
+  box-shadow: 0.15rem 0.15rem 0 var(--ink);
+}
+.fbar.ok { background: var(--emerald-lt); color: #065f46; }
+.fbar.bad { background: var(--rose-lt); color: #9f1239; }
+
+/* Giriş Ekranı */
+.name-wrap {
+  display: grid; gap: 0.65rem; height: 100%;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-areas: "hero form" "tiles tiles";
+}
+.hero {
+  grid-area: hero; padding: 0.9rem 1.2rem;
+  display: flex; flex-direction: column; justify-content: center; gap: 0.55rem;
+  background: url('arkaplan.jpg') center/cover no-repeat, linear-gradient(135deg, #ccfbf1 0%, #fef3c7 55%, #ffe4e6 100%);
+  overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.78));
+  border-radius: inherit; z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.hero-badges span {
+  background: #fff; border: 0.13rem solid var(--ink); border-radius: 999px;
+  padding: 0.12rem 0.65rem; font-family: var(--fh); font-size: 0.82rem;
+  box-shadow: 0 0.12rem 0 var(--ink);
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4.2vmin + 0.8rem, 3.4rem);
+  color: var(--teal); text-shadow: 0.12rem 0.12rem 0 var(--amber-lt);
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.hero-desc {
+  font-size: 0.96rem; line-height: 1.38; background: rgba(255,255,255,0.95);
+  border: 0.15rem solid var(--ink); border-radius: 0.85rem; padding: 0.55rem 0.8rem;
+  box-shadow: 0.16rem 0.16rem 0 var(--ink);
+}
+.concept-mini {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem;
+}
+.c-mini-box {
+  background: #fff; border: 0.13rem solid var(--ink); border-radius: 0.7rem;
+  padding: 0.3rem 0.4rem; text-align: center; font-size: 0.78rem;
+  box-shadow: 0 0.12rem 0 var(--ink);
+}
+.c-mini-box b { display: block; font-family: var(--fh); font-size: 0.9rem; color: var(--rose); }
+
+.namecard {
+  grid-area: form; padding: 0.9rem 1.1rem;
+  display: flex; flex-direction: column; justify-content: center; gap: 0.55rem;
+  background: linear-gradient(160deg, #ffffff, #e0f2fe);
+}
+.namecard label { font-family: var(--fh); font-size: 1.35rem; color: var(--ink); display: flex; align-items: center; gap: 0.4rem; }
+.field {
+  width: 100%; padding: 0.6rem 0.85rem; border: 0.18rem solid var(--ink);
+  border-radius: 0.85rem; font-family: var(--fb); font-size: 1.25rem;
+  font-weight: 800; color: var(--ink); background: #fff; outline: none;
+}
+.field:focus { box-shadow: 0 0 0 0.25rem rgba(15, 118, 110, 0.28); }
+.howto { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.howto div {
+  display: flex; align-items: center; gap: 0.4rem; background: #fff;
+  border: 0.13rem solid var(--ink); border-radius: 0.65rem;
+  padding: 0.28rem 0.5rem; font-size: 0.8rem;
+}
+.tiles {
+  grid-area: tiles; display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.45rem;
+}
+.tile {
+  padding: 0.35rem 0.5rem; display: flex; gap: 0.4rem; align-items: center;
+  background: #fff; box-shadow: 0.15rem 0.15rem 0 var(--ink);
+}
+.tile .te { font-size: 1.35rem; }
+.tile b { font-size: 0.78rem; line-height: 1.12; display: block; }
+
+/* Portre Avatar Bileşeni (Gerçek Fotoğraf + SVG Yedekli) */
+.portrait {
+  position: relative; width: var(--sz, 4.2rem); height: var(--sz, 4.2rem);
+  border-radius: 50%; border: 0.16rem solid var(--ink);
+  background: var(--bgc, #e0f2fe); overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 0.15rem 0 var(--ink); display: inline-flex; align-items: center; justify-content: center;
+}
+.portrait svg { width: 100%; height: 100%; display: block; }
+.portrait img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ================= AŞAMA 1: 3B KAVRAM ATÖLYESİ ================= */
+.st1-grid {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.6rem; height: 100%; align-items: stretch;
+}
+.card3d { perspective: 70rem; height: 100%; min-height: 0; }
+.card3d-inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.25, 1.1, 0.4, 1);
+}
+.card3d.flipped .card3d-inner { transform: rotateY(180deg); }
+.c3d-front, .c3d-back {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border: 0.18rem solid var(--ink); border-radius: 1rem;
+  box-shadow: 0.24rem 0.24rem 0 var(--ink); padding: 0.6rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  text-align: center; overflow: hidden;
+}
+.c3d-front { background: linear-gradient(165deg, #ffffff 0%, #fef3c7 100%); }
+.c3d-canvas-wrap {
+  width: 100%; flex: 1; min-height: 5rem; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.c3d-front h3 { font-size: 1.25rem; color: var(--teal); }
+.c3d-front small {
+  background: var(--amber); color: var(--ink); padding: 0.15rem 0.6rem;
+  border-radius: 999px; border: 0.12rem solid var(--ink); font-size: 0.76rem; font-weight: 800;
+}
+.c3d-back {
+  background: linear-gradient(165deg, #ffffff 0%, #ccfbf1 100%);
+  transform: rotateY(180deg); justify-content: space-evenly;
+}
+.c3d-photo {
+  width: 100%; height: 5.2rem; border-radius: 0.65rem; border: 0.13rem solid var(--ink);
+  overflow: hidden; position: relative; background: #e0f2fe; flex-shrink: 0;
+}
+.c3d-photo img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.c3d-photo svg { width: 100%; height: 100%; }
+.c3d-back h4 { font-size: 1.1rem; color: var(--rose); }
+.c3d-back p { font-size: 0.83rem; line-height: 1.28; color: var(--ink); }
+.c3d-example {
+  background: var(--amber-lt); border: 0.12rem dashed var(--ink);
+  border-radius: 0.55rem; padding: 0.25rem 0.45rem; font-size: 0.78rem; width: 100%;
+}
+
+/* ================= AŞAMA 2: SAYI LABORATUVARI (50 + 3 = 53) ================= */
+.st2-wrap {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.35fr);
+  gap: 0.65rem; height: 100%;
+}
+.st2-left {
+  padding: 0.7rem; display: flex; flex-direction: column;
+  justify-content: space-between; gap: 0.5rem;
+  background: linear-gradient(160deg, #ffffff, #fef3c7);
+}
+.target-person-box {
+  display: flex; align-items: center; gap: 0.7rem;
+  background: #fff; border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.55rem 0.75rem; box-shadow: 0.16rem 0.16rem 0 var(--ink);
+}
+.target-age-badge {
+  margin-left: auto; background: var(--rose); color: #fff;
+  border: 0.15rem solid var(--ink); border-radius: 0.8rem;
+  padding: 0.3rem 0.7rem; text-align: center; box-shadow: 0 0.15rem 0 var(--ink);
+}
+.target-age-badge span { display: block; font-size: 0.72rem; opacity: 0.9; }
+.target-age-badge b { font-family: var(--fh); font-size: 1.7rem; line-height: 1; }
+
+.magnet-chamber {
+  background: #0f172a; color: #fff; border: 0.18rem solid var(--ink);
+  border-radius: 1rem; padding: 0.65rem; flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; position: relative; overflow: hidden;
+}
+.chamber-formula {
+  display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+  width: 100%; flex-wrap: wrap;
+}
+.m-slot {
+  min-width: 5.6rem; min-height: 3.6rem; border-radius: 0.8rem;
+  border: 0.18rem dashed #64748b; background: rgba(255,255,255,0.08);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0.25rem 0.55rem; transition: 0.25s;
+}
+.m-slot.filled-tens {
+  border-style: solid; border-color: #38bdf8; background: #0284c7;
+  transform: scale(1.04); box-shadow: 0 0 0.8rem rgba(56,189,248,0.5);
+}
+.m-slot.filled-ones {
+  border-style: solid; border-color: #fbbf24; background: #d97706;
+  transform: scale(1.04); box-shadow: 0 0 0.8rem rgba(251,191,36,0.5);
+}
+.m-slot.result-box {
+  min-width: 6.8rem; border-style: solid; border-color: #34d399;
+  background: #065f46;
+}
+.m-slot.result-box.fused {
+  background: linear-gradient(135deg, #059669, #10b981);
+  animation: fusePop 0.55s cubic-bezier(0.3, 1.5, 0.5, 1);
+  box-shadow: 0 0 1.2rem rgba(52, 211, 153, 0.8);
+}
+@keyframes fusePop { 50% { transform: scale(1.18); } }
+.m-slot b { font-family: var(--fh); font-size: 1.45rem; line-height: 1.05; }
+.m-slot small { font-size: 0.78rem; color: #e2e8f0; }
+.op-sym { font-family: var(--fh); font-size: 1.6rem; color: #94a3b8; }
+
+.st2-right {
+  padding: 0.7rem; display: flex; flex-direction: column; justify-content: space-between;
+  gap: 0.5rem; background: linear-gradient(160deg, #ffffff, #e0f2fe);
+}
+.block-group-title {
+  font-family: var(--fh); font-size: 0.95rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.num-grid-tens { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.38rem; }
+.num-grid-ones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.38rem; }
+.num-tile {
+  border: 0.15rem solid var(--ink); border-radius: 0.7rem;
+  padding: 0.3rem 0.2rem; text-align: center; background: #fff;
+  box-shadow: 0 0.16rem 0 var(--ink); transition: 0.12s;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.num-tile.tens-tile { background: #e0f2fe; }
+.num-tile.ones-tile { background: #fef3c7; }
+.num-tile.picked {
+  outline: 0.22rem solid var(--rose); transform: translateY(-0.15rem);
+  background: #ffe4e6;
+}
+.num-tile b { font-family: var(--fh); font-size: 1.15rem; line-height: 1; color: var(--ink); }
+.num-tile span { font-size: 0.72rem; color: #334155; font-weight: 800; }
+
+/* ================= AŞAMA 3: YAŞ MERDİVENİ & SEN/SİZ KANTARI ================= */
+.st3-wrap {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 0.65rem; height: 100%;
+}
+.st3-left {
+  padding: 0.65rem; display: flex; flex-direction: column; justify-content: space-between;
+  gap: 0.5rem; background: linear-gradient(160deg, #ffffff, #f3e8ff);
+}
+.char-tray {
+  display: flex; gap: 0.55rem; justify-content: center; align-items: center;
+  min-height: 5.4rem; padding: 0.4rem; background: rgba(255,255,255,0.85);
+  border: 0.15rem dashed var(--ink); border-radius: 0.85rem; flex-wrap: wrap;
+}
+.char-token {
+  display: flex; align-items: center; gap: 0.45rem;
+  background: #fff; border: 0.16rem solid var(--ink); border-radius: 0.8rem;
+  padding: 0.3rem 0.6rem; box-shadow: 0 0.18rem 0 var(--ink);
+}
+.char-token.sel { outline: 0.22rem solid var(--rose); transform: translateY(-0.2rem); background: var(--amber-lt); }
+.char-token b { font-family: var(--fh); font-size: 0.95rem; display: block; }
+.char-token small { font-size: 0.75rem; color: var(--teal); display: block; }
+
+.zones-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; flex: 1; min-height: 0;
+}
+.age-zone {
+  border: 0.17rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.45rem; display: flex; flex-direction: column; align-items: center;
+  justify-content: flex-start; gap: 0.35rem; background: #fff;
+  box-shadow: 0.16rem 0.16rem 0 var(--ink); transition: 0.2s;
+}
+.age-zone.z-child { background: linear-gradient(180deg, #e0f2fe, #fff); }
+.age-zone.z-youth { background: linear-gradient(180deg, #fef3c7, #fff); }
+.age-zone.z-adult { background: linear-gradient(180deg, #fce7f3, #fff); }
+.age-zone.hi { box-shadow: 0 0 0 0.28rem var(--amber); }
+.age-zone h4 { font-size: 1rem; color: var(--ink); }
+.age-zone .z-sub { font-size: 0.73rem; background: rgba(255,255,255,0.9); padding: 0.1rem 0.45rem; border-radius: 999px; border: 0.1rem solid var(--ink); }
+.zone-slots { display: flex; flex-direction: column; gap: 0.3rem; width: 100%; align-items: center; }
+
+.st3-right {
+  padding: 0.65rem; display: flex; flex-direction: column; justify-content: space-between;
+  gap: 0.5rem; background: linear-gradient(160deg, #ffffff, #ccfbf1);
+}
+.scale-canvas-box {
+  background: #fff; border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.5rem; text-align: center; flex: 1; display: flex;
+  flex-direction: column; align-items: center; justify-content: space-between;
+}
+.scale-beam-wrap {
+  width: 100%; height: 5.5rem; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.scale-beam {
+  width: 82%; height: 0.45rem; background: var(--ink); border-radius: 999px;
+  position: relative; transition: transform 0.5s cubic-bezier(0.3, 1.5, 0.5, 1);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.scale-pan {
+  width: 4.5rem; height: 2.6rem; background: var(--amber-lt);
+  border: 0.15rem solid var(--ink); border-radius: 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--fh); font-size: 0.85rem; transform: translateY(-1.2rem);
+  box-shadow: 0 0.14rem 0 var(--ink);
+}
+.scale-fulcrum {
+  position: absolute; bottom: 0.4rem; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 1.2rem solid transparent;
+  border-right: 1.2rem solid transparent; border-bottom: 1.8rem solid var(--teal);
+}
+.sensiz-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 100%; }
+.ss-btn {
+  padding: 0.55rem; border: 0.16rem solid var(--ink); border-radius: 0.85rem;
+  background: #fff; box-shadow: 0 0.2rem 0 var(--ink);
+  text-align: center; transition: 0.12s;
+}
+.ss-btn:hover { background: var(--amber-lt); }
+.ss-btn b { font-family: var(--fh); font-size: 1.15rem; color: var(--teal); display: block; }
+.ss-btn span { font-size: 0.8rem; color: var(--ink); }
+
+/* ================= AŞAMA 4: MEVSİMLER, AYLAR VE DOĞUM GÜNÜ ÇARKI ================= */
+.st4-wrap {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 0.65rem; height: 100%;
+}
+.seasons-board {
+  padding: 0.6rem; display: grid; grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr; gap: 0.5rem; background: #fff;
+}
+.season-box {
+  border: 0.16rem solid var(--ink); border-radius: 0.85rem; padding: 0.4rem 0.5rem;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0.15rem 0.15rem 0 var(--ink);
+}
+.season-box.s-spring { background: linear-gradient(135deg, #dcfce7, #f0fdf4); }
+.season-box.s-summer { background: linear-gradient(135deg, #fef3c7, #fffbeb); }
+.season-box.s-autumn { background: linear-gradient(135deg, #ffedd5, #fff7ed); }
+.season-box.s-winter { background: linear-gradient(135deg, #e0f2fe, #f0f9ff); }
+.season-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--fh); font-size: 1rem;
+}
+.months-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+.month-cell {
+  background: #fff; border: 0.14rem solid var(--ink); border-radius: 0.6rem;
+  padding: 0.32rem 0.2rem; text-align: center; font-size: 0.82rem; font-weight: 800;
+  box-shadow: 0 0.13rem 0 var(--ink); transition: 0.12s;
+}
+.month-cell:hover { transform: translateY(-0.1rem); background: var(--amber-lt); }
+.month-cell.active { background: var(--teal); color: #fff; transform: scale(1.05); }
+.month-cell small { display: block; font-size: 0.66rem; opacity: 0.75; }
+
+.bday-builder {
+  padding: 0.65rem; display: flex; flex-direction: column; justify-content: space-between;
+  gap: 0.5rem; background: linear-gradient(160deg, #ffffff, #ffe4e6);
+}
+.bday-task-card {
+  background: #fff; border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.55rem 0.7rem; box-shadow: 0.16rem 0.16rem 0 var(--ink);
+}
+.day-selector {
+  background: #fff; border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem;
+}
+.day-stepper {
+  display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+}
+.day-display {
+  min-width: 7.5rem; background: var(--amber-lt); border: 0.15rem solid var(--ink);
+  border-radius: 0.75rem; padding: 0.25rem 0.6rem; text-align: center;
+}
+.day-display b { font-family: var(--fh); font-size: 1.5rem; display: block; line-height: 1; color: var(--rose); }
+.day-display span { font-size: 0.8rem; font-weight: 800; color: var(--ink); }
+.bday-preview {
+  background: #0f172a; color: #fff; border: 0.16rem solid var(--ink);
+  border-radius: 0.85rem; padding: 0.5rem 0.7rem; text-align: center;
+}
+.bday-preview b { color: #fbbf24; font-family: var(--fh); font-size: 1.15rem; }
+
+/* ================= AŞAMA 5: HİTAP KÖPRÜSÜ (KARŞILAŞTIRMA) ================= */
+.st5-wrap {
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.6rem; height: 100%;
+}
+.bridge-arena {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 0.7rem; padding: 0.75rem 1rem;
+  background: linear-gradient(180deg, #e0f2fe 0%, #fef3c7 100%);
+}
+.person-pillar {
+  background: #fff; border: 0.18rem solid var(--ink); border-radius: 1.1rem;
+  padding: 0.65rem; display: flex; flex-direction: column; align-items: center;
+  gap: 0.35rem; box-shadow: 0.22rem 0.22rem 0 var(--ink); text-align: center;
+}
+.person-pillar .age-pill {
+  background: var(--teal); color: #fff; border-radius: 999px;
+  padding: 0.12rem 0.7rem; font-size: 0.85rem; border: 0.12rem solid var(--ink);
+}
+.bridge-center {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  max-width: 17rem; text-align: center;
+}
+.rel-badge {
+  background: var(--amber); border: 0.16rem solid var(--ink);
+  border-radius: 0.85rem; padding: 0.35rem 0.8rem;
+  box-shadow: 0.16rem 0.16rem 0 var(--ink); font-family: var(--fh); font-size: 1.05rem;
+}
+.speech-slot {
+  background: #fff; border: 0.18rem dashed var(--rose); border-radius: 0.9rem;
+  padding: 0.5rem 0.8rem; font-size: 1rem; font-weight: 800; width: 100%;
+  box-shadow: 0.15rem 0.15rem 0 var(--ink);
+}
+.hitap-options {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem;
+}
+.hitap-btn {
+  padding: 0.6rem 0.5rem; border: 0.17rem solid var(--ink); border-radius: 0.9rem;
+  background: #fff; box-shadow: 0 0.22rem 0 var(--ink);
+  font-family: var(--fh); font-size: 1.1rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  transition: 0.12s;
+}
+.hitap-btn:hover { background: var(--amber-lt); transform: translateY(-0.12rem); }
+.hitap-btn.good { background: var(--emerald-lt); border-color: var(--emerald); }
+.hitap-btn.bad { background: var(--rose-lt); animation: shake 0.4s; }
+
+/* ================= AŞAMA 6: 3B DOĞUM GÜNÜ PARTİSİ ================= */
+.st6-wrap {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.25fr);
+  gap: 0.65rem; height: 100%;
+}
+.cake-stage-card {
+  background: radial-gradient(circle at 50% 28%, #fffafd 0%, #fce7f3 48%, #e9d5ff 100%);
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 0.6rem; overflow: hidden; position: relative;
+}
+.cake-stage-card::before, .cake-stage-card::after {
+  content: "✦"; position: absolute; color: rgba(166,59,117,0.28);
+  font-size: 2rem; pointer-events: none; animation: cakeTwinkle 2.8s ease-in-out infinite alternate;
+}
+.cake-stage-card::before { top: 24%; left: 8%; }
+.cake-stage-card::after { top: 38%; right: 7%; animation-delay: -1.1s; }
+@keyframes cakeTwinkle { to { opacity: 0.35; transform: scale(0.65) rotate(25deg); } }
+#cake3d-host {
+  width: 100%; flex: 1; min-height: 9rem; position: relative;
+  cursor: var(--cur-hand); touch-action: none; z-index: 1;
+}
+.cake-fallback {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  justify-content: flex-end; align-items: center; padding-bottom: 0.6rem;
+}
+.cake-fallback-tier { display: block; position: relative; border: 0.16rem solid #8f3b68; }
+.tier-top { width: 34%; height: 22%; border-radius: 1.4rem 1.4rem 0.35rem 0.35rem; background: #c084fc; }
+.tier-mid { width: 52%; height: 24%; border-radius: 1.1rem 1.1rem 0.35rem 0.35rem; background: #f7b7d2; }
+.tier-bottom { width: 70%; height: 26%; border-radius: 1rem 1rem 0.35rem 0.35rem; background: #d94f8c; }
+.cake-fallback-plate { width: 80%; height: 0.45rem; border-radius: 50%; background: #fffafd; border: 0.12rem solid #8f3b68; }
+.cake-fallback-flames { font-size: 1.6rem; margin-bottom: -0.15rem; animation: flameFlicker 0.45s ease-in-out infinite alternate; }
+.cake-stage-card.is-out .cake-fallback-flames { opacity: 0; transform: translateY(-0.7rem) scale(0.5); transition: 0.45s ease; animation: none; }
+.cake-stage-card.is-out .cake-fallback::after { content: "💨"; position: absolute; top: 20%; font-size: 2rem; animation: smokeDrift 1.2s ease-out both; }
+@keyframes smokeDrift { to { opacity: 0; transform: translate(1.3rem, -2.2rem) scale(1.7); } }
+@keyframes flameFlicker { to { transform: scale(0.9) rotate(2deg); filter: brightness(1.3); } }
+.cake-controls {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem; background: rgba(255,255,255,0.92);
+  border: 0.15rem solid var(--ink); border-radius: 0.8rem; padding: 0.35rem 0.65rem; z-index: 1;
+}
+#candle-status { color: var(--rose) !important; }
+.party-right {
+  padding: 0.65rem; display: flex; flex-direction: column;
+  justify-content: space-between; gap: 0.5rem;
+  background: linear-gradient(160deg, #fffafd, #f3e8ff 58%, #fce7f3);
+}
+.bday-dialogue-box {
+  background: rgba(255,255,255,0.9); border: 0.16rem solid var(--ink); border-radius: 0.9rem;
+  padding: 0.6rem 0.8rem; box-shadow: 0.16rem 0.16rem 0 var(--ink);
+  display: flex; align-items: center; gap: 0.65rem;
+}
+.wish-choices { display: flex; flex-direction: column; gap: 0.45rem; }
+.wish-row { display: flex; gap: 0.4rem; align-items: stretch; }
+.wish-btn {
+  flex: 1; text-align: left; padding: 0.55rem 0.8rem;
+  border: 0.16rem solid var(--ink); border-radius: 0.85rem;
+  background: #fffafd; box-shadow: 0 0.2rem 0 var(--ink);
+  font-family: var(--fb); font-weight: 800; font-size: 0.98rem; color: var(--ink);
+  transition: 0.12s;
+}
+.wish-btn:hover { background: #fce7f3; transform: translateY(-0.1rem); }
+.wish-btn.good { background: #f3e8ff; }
+.wish-btn.bad { background: var(--rose-lt); animation: shake 0.4s; }
+
+/* Bitiş ve Sertifika Ekranı */
+.endwrap {
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.6rem; height: 100%; justify-items: center;
+}
+.cert {
+  width: min(100%, 54rem); height: 100%; background: #fff;
+  border: 0.4rem solid var(--teal); border-radius: 1.3rem;
+  overflow: hidden; display: flex; flex-direction: column;
+  text-align: center; box-shadow: 0.35rem 0.35rem 0 var(--ink);
+}
+.cband { height: 0.85rem; flex-shrink: 0; background: #8f3b68; }
+.cbody {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  justify-content: space-evenly; padding: 0.6rem 1.4rem; min-height: 0;
+}
+.cbody h1 { font-size: clamp(1.5rem, 3.8vmin + 0.4rem, 2.6rem); color: var(--teal); }
+.cbody h2 {
+  font-size: clamp(1.5rem, 3.5vmin + 0.4rem, 2.5rem); color: var(--rose);
+  border-bottom: 0.25rem solid var(--amber); padding: 0 1rem 0.1rem;
+}
+.cbody p { font-size: clamp(0.88rem, 1.5vmin + 0.35rem, 1.15rem); line-height: 1.38; max-width: 42rem; }
+.cstats { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+.cfoot {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; border-top: 0.14rem dashed #94a3b8; padding-top: 0.4rem;
+  font-family: var(--fh); font-size: 0.85rem; color: #334155;
+}
+.endbtns { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+
+/* Yüzen Puan, Toast, Overlay, Konfeti */
+.fpts {
+  position: fixed; z-index: 300; font-family: var(--fh); font-weight: 800;
+  font-size: 1.7rem; color: var(--emerald); text-shadow: 0 0.1rem 0 #fff, 0 0 0.4rem #fff;
+  pointer-events: none; transform: translate(-50%, 0); animation: flUp 0.95s ease-out forwards;
+}
+@keyframes flUp { to { transform: translate(-50%, -3.2rem); opacity: 0; } }
+#confetti { position: fixed; inset: 0; z-index: 150; pointer-events: none; }
+#toast {
+  position: fixed; left: 50%; bottom: 3rem; transform: translateX(-50%) translateY(2rem);
+  z-index: 250; background: var(--ink); color: #fff; border-radius: 999px;
+  padding: 0.45rem 1.15rem; font-size: 0.92rem; opacity: 0; transition: 0.28s;
+  pointer-events: none; max-width: 92vw; text-align: center;
+}
+#toast.on { opacity: 1; transform: translateX(-50%); }
+#overlay {
+  position: fixed; inset: 0; z-index: 200; background: rgba(15, 23, 42, 0.65);
+  display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+#overlay.on { display: flex; }
+.ovcard {
+  padding: 1.2rem 1.6rem; text-align: center; max-width: min(31rem, 94vw);
+  animation: popIn 0.38s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+@keyframes popIn { from { transform: scale(0.65); opacity: 0; } to { transform: none; opacity: 1; } }
+.ovemoji { font-size: 3.5rem; line-height: 1; }
+.ovcard h2 { font-size: 1.7rem; margin: 0.3rem 0; color: var(--teal); }
+.ovcard p { font-size: 1rem; margin-bottom: 0.75rem; line-height: 1.35; }
+.ovstats { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 0.9rem; flex-wrap: wrap; }
+.ovstat {
+  background: var(--amber-lt); border: 0.14rem solid var(--ink);
+  border-radius: 0.7rem; padding: 0.25rem 0.75rem; font-weight: 800;
+}
+
+/* Mobil ve Tablet Duyarlılık (Tam Ekran Sığdırma) */
+@media (max-width: 900px), (orientation: portrait) {
+  #top {
+    grid-template-columns: minmax(4.5rem, 6.5rem) 1fr;
+    grid-template-areas: "logo stats" "pill pill";
+    gap: 0.25rem 0.4rem; padding: 0.3rem 0.55rem;
+  }
+  #top > .lsp { grid-area: logo; }
+  #stats { grid-area: stats; justify-self: end; gap: 0.25rem; }
+  #stagepill { grid-area: pill; justify-self: stretch; justify-content: center; }
+  #logo { height: 2rem; max-width: 6rem; }
+  .dtag { display: none; }
+  #dir-text { font-size: 0.88rem; }
+  .name-wrap {
+    grid-template-columns: 1fr; grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas: "hero" "form" "tiles"; overflow-y: auto;
+  }
+  .concept-mini, .howto { display: none; }
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+  .st1-grid { grid-template-columns: repeat(2, 1fr); overflow-y: auto; }
+  .st2-wrap, .st3-wrap, .st4-wrap, .st6-wrap {
+    grid-template-columns: 1fr; overflow-y: auto;
+  }
+  .bridge-arena { grid-template-columns: 1fr; padding: 0.4rem; gap: 0.4rem; }
+  .hitap-options { grid-template-columns: repeat(2, 1fr); }
+  .foot { padding: 0.2rem 0.5rem; }
+  .fpill { font-size: 0.7rem; padding: 0.1rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Three.js 3B Arka Plan Sahnesi -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- Sol Üst Logo ve Yedek Rozet -->
+<div id="logo-wrap">
+  <img id="logo" src="orjinal.svg" alt="Ülkem Yanımda Logo" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display=' inline-flex'">
+  <div id="logo-fallback">🌙 ÜLKEM YANIMDA</div>
+</div>
+
+<div id="app">
+  <!-- Üst Bilgi Çubuğu -->
+  <header id="top">
+    <div class="lsp"></div>
+    <div id="stagepill">
+      <div id="steps"></div>
+      <span id="stagelabel">Hazır mısın?</span>
+    </div>
+    <div id="stats">
+      <div class="stat" id="st-score" title="Puan">⭐ <b id="score">0</b></div>
+      <div class="stat" id="st-lives" title="Can"><span id="hearts">❤️❤️❤️</span></div>
+      <div class="stat" title="Süre">⏱️ <b id="clock">00:00</b></div>
+      <button class="iconbtn" id="btn-mute" type="button" title="Sesi Aç/Kapat" aria-label="Ses">🔊</button>
+      <button class="iconbtn" id="btn-full" type="button" title="Tam Ekran" aria-label="Tam Ekran">⛶</button>
+    </div>
+  </header>
+
+  <!-- Yönerge Çubuğu -->
+  <div id="directive">
+    <span class="dtag">📣 YÖNERGE</span>
+    <p id="dir-text"></p>
+    <button class="spk" id="dir-spk" type="button" aria-label="Yönergeyi dinle">🔊</button>
+  </div>
+
+  <!-- Ana İçerik Alanı -->
+  <main id="main">
+    <!-- GİRİŞ EKRANI -->
+    <section id="s-name" class="screen on">
+      <div class="name-wrap">
+        <div class="card hero">
+          <div class="hero-badges">
+            <span>🤝 ABI & ABLA</span>
+            <span>💛 AMCA & TEYZE</span>
+            <span>🔢 1-100 SAYILAR</span>
+            <span>🌸 MEVSİMLER & AYLAR</span>
+            <span>🎂 İYİ Kİ DOĞDUN</span>
+          </div>
+          <h1>
+            Yaşa Saygı, Söze Nezaket
+            <button class="spk sm" type="button" data-t="Yaşa Saygı, Söze Nezaket oyununa hoş geldin!" aria-label="Başlığı dinle">🔊</button>
+          </h1>
+          <p class="hero-desc">
+            Türkiye'de sadece akrabalarımıza değil; dışarıda karşılaştığımız bizden büyük, yaşıt (akran) veya küçük herkese <b>güzel bir hitapla</b> ve <b>nezaketle</b> sesleniriz. Sayıları, doğum günümüzü ve saygılı hitapları 3 boyutlu dünyamızda keşfedelim!
+            <button class="spk sm" type="button" data-t="Türkiye'de sadece akrabalarımıza değil; dışarıda karşılaştığımız bizden büyük, akran veya küçük herkese güzel bir hitapla ve nezaketle sesleniriz. Sayıları, doğum günümüzü ve saygılı hitapları keşfedelim!" aria-label="Açıklamayı dinle">🔊</button>
+          </p>
+          <div class="concept-mini">
+            <div class="c-mini-box"><b>⏳ YAŞ</b>Kaç yıldır yaşadığımız</div>
+            <div class="c-mini-box"><b>🤍 SAYGI</b>Değer vermek</div>
+            <div class="c-mini-box"><b>💬 SÖZ & HİTAP</b>Nasıl seslendiğimiz</div>
+            <div class="c-mini-box"><b>🌸 NEZAKET</b>Kibar ve tatlı dil</div>
+          </div>
+        </div>
+
+        <form class="card namecard" id="f-name" autocomplete="off">
+          <label for="in-name">
+            👋 Senin adın nedir?
+            <button class="spk sm" type="button" data-t="Merhaba! Oyuna başlamak için adını kutuya yaz ve Başla düğmesine dokun." aria-label="Dinle">🔊</button>
+          </label>
+          <input class="field" id="in-name" type="text" maxlength="24" placeholder="Adını buraya yaz…" required>
+          <p id="name-err" style="color:var(--rose);font-size:0.85rem;min-height:1.1em"></p>
+          <button class="btn btn-teal" type="submit">Maceraya Başla ▶</button>
+          <div class="howto">
+            <div><span>🔊</span>Yazıları sesli dinle</div>
+            <div><span>🧲</span>Sayıları birleştir</div>
+            <div><span>⚖️</span>Sen ve Siz'i tart</div>
+            <div><span>🎂</span>3B Pastayı kutla</div>
+          </div>
+        </form>
+
+        <div class="tiles" id="tiles"></div>
+      </div>
+    </section>
+
+    <!-- DİNAMİK OYUN SAHNESİ -->
+    <section id="stage" class="screen"></section>
+
+    <!-- BİTİŞ / SERTİFİKA EKRANI -->
+    <section id="s-end" class="screen">
+      <div class="endwrap">
+        <div class="cert" id="cert">
+          <div class="cband"></div>
+          <div class="cbody">
+            <div style="font-size:2.8rem;line-height:1">🏅</div>
+            <h1>Yaşa Saygı, Söze Nezaket Sertifikası</h1>
+            <p>Bu başarı belgesi,</p>
+            <h2 id="c-name">Öğrenci Adı</h2>
+            <p>
+              <b>Türkçe ve Türk Kültürü Dersi</b> kapsamında; <b>Yaş, Saygı, Söz, Nezaket ve Hitap</b> kavramlarını, <b>Abi, Abla, Amca, Teyze</b> sözcüklerini, <b>Sen ve Siz</b> uyumunu, <b>1-100 arası sayılarla yaş söylemeyi</b> ve <b>mevsimler-aylarla doğum günü kutlamayı</b> başarıyla tamamladığı için verilmiştir.
+              <button class="spk sm" type="button" data-t="Tebrikler! Yaşa Saygı, Söze Nezaket oyununu başarıyla bitirdin ve nezaket elçisi sertifikanı kazandın!" aria-label="Sertifikayı dinle">🔊</button>
+            </p>
+            <div class="cstats">
+              <span class="pill">⭐ <span id="c-score">0</span> Puan</span>
+              <span class="pill">⏱️ Süre: <span id="c-time">00:00</span></span>
+              <span class="pill">🎂 Doğum Günü: <span id="c-bday">Belirtildi</span></span>
+            </div>
+            <div class="cfoot">
+              <span id="c-date">00.00.0000</span>
+              <span>ÜLKEM YANIMDA • TÜRKÇE VE TÜRK KÜLTÜRÜ</span>
+            </div>
+          </div>
+        </div>
+        <div class="endbtns">
+          <button class="btn btn-emerald" id="btn-cert" type="button">⬇ Sertifikayı İndir (JPG)</button>
+          <button class="btn btn-white" id="btn-again" type="button">↻ Tekrar Oyna</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sol Altta Ömer Kocabıyık ve Ülkem Yanımda Bannerı -->
+  <footer class="foot">
+    <div class="foot-left">
+      <span class="fpill author">👨‍🏫 ÖMER KOCABIYIK</span>
+      <span class="fpill project">🌙 ÜLKEM YANIMDA</span>
+    </div>
+    <span class="fpill course">📚 TÜRKÇE VE TÜRK KÜLTÜRÜ DERSİ</span>
+  </footer>
+</div>
+
+<div id="overlay"></div>
+<div id="toast"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const shuffle = a => { const r = [...a]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; };
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
+/* Oyun Durumu */
+const S = {
+  name: '',
+  score: 0,
+  lives: 3,
+  stage: 0,
+  startScore: 0,
+  t0: 0,
+  mute: false,
+  gen: 0,
+  userBday: '15 Mayıs',
+  userAge: 9,
+  timers: [],
+  clean: []
+};
+
+/* ================= TÜRKÇE SAYI OKUNUŞ MOTORU (1-100) ================= */
+const ONES_TR = ['', 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz'];
+const TENS_TR = ['', 'on', 'yirmi', 'otuz', 'kırk', 'elli', 'altmış', 'yetmiş', 'seksen', 'doksan'];
+
+function numToTr(n) {
+  n = Number(n);
+  if (n === 0) return 'sıfır';
+  if (n === 100) return 'yüz';
+  const t = Math.floor(n / 10);
+  const o = n % 10;
+  return (TENS_TR[t] + (t && o ? ' ' : '') + ONES_TR[o]).trim();
+}
+
+/* ================= GERÇEK FOTOĞRAF + VEKTÖR YEDEK PORTRE SİSTEMİ ================= */
+const PORTRAIT_SVGS = {
+  taha: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#bae6fd"/><circle cx="50" cy="42" r="22" fill="#fed7aa"/><path d="M28 38 C28 18 72 18 72 38 C65 28 35 28 28 38 Z" fill="#451a03"/><circle cx="42" cy="42" r="3" fill="#1e293b"/><circle cx="58" cy="42" r="3" fill="#1e293b"/><path d="M43 52 Q50 58 57 52" stroke="#e11d48" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M22 98 C22 68 78 68 78 98 Z" fill="#0284c7"/></svg>`,
+  beyza: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fbcfe8"/><path d="M22 45 C22 15 78 15 78 45 L82 75 L18 75 Z" fill="#78350f"/><circle cx="50" cy="44" r="21" fill="#fed7aa"/><circle cx="42" cy="43" r="3" fill="#1e293b"/><circle cx="58" cy="43" r="3" fill="#1e293b"/><path d="M43 53 Q50 59 57 53" stroke="#e11d48" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 98 C24 70 76 70 76 98 Z" fill="#db2777"/></svg>`,
+  can: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fde68a"/><circle cx="50" cy="40" r="23" fill="#fdba74"/><path d="M26 36 C26 12 74 12 74 36 C64 24 36 24 26 36 Z" fill="#1e293b"/><circle cx="42" cy="41" r="3.2" fill="#1e293b"/><circle cx="58" cy="41" r="3.2" fill="#1e293b"/><path d="M42 52 Q50 58 58 52" stroke="#9a3412" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M18 98 C18 66 82 66 82 98 Z" fill="#0f766e"/></svg>`,
+  zeynep: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#ddd6fe"/><path d="M20 42 C20 12 80 12 80 42 L85 82 L15 82 Z" fill="#3b0764"/><circle cx="50" cy="42" r="22" fill="#fed7aa"/><circle cx="42" cy="42" r="3.2" fill="#1e293b"/><circle cx="58" cy="42" r="3.2" fill="#1e293b"/><path d="M42 52 Q50 58 58 52" stroke="#e11d48" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M20 98 C20 68 80 68 80 98 Z" fill="#7c3aed"/></svg>`,
+  ahmet: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#ccfbf1"/><circle cx="50" cy="41" r="23" fill="#fdba74"/><path d="M27 34 C27 14 73 14 73 34 C64 24 36 24 27 34 Z" fill="#475569"/><circle cx="42" cy="40" r="3.2" fill="#1e293b"/><circle cx="58" cy="40" r="3.2" fill="#1e293b"/><path d="M38 49 Q50 45 62 49" stroke="#475569" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M43 55 Q50 60 57 55" stroke="#7c2d12" stroke-width="2.5" fill="none"/><path d="M16 98 C16 65 84 65 84 98 Z" fill="#1e3a8a"/></svg>`,
+  ayse: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#ffe4e6"/><path d="M20 42 C20 14 80 14 80 42 C80 72 20 72 20 42 Z" fill="#0f766e"/><circle cx="50" cy="43" r="20" fill="#fed7aa"/><circle cx="43" cy="42" r="3" fill="#1e293b"/><circle cx="57" cy="42" r="3" fill="#1e293b"/><rect x="36" y="38" width="12" height="8" rx="2" fill="none" stroke="#b45309" stroke-width="2"/><rect x="52" y="38" width="12" height="8" rx="2" fill="none" stroke="#b45309" stroke-width="2"/><path d="M43 53 Q50 58 57 53" stroke="#e11d48" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M18 98 C18 68 82 68 82 98 Z" fill="#be123c"/></svg>`
+};
+
+function renderPortrait(key, file, size = '4.2rem') {
+  const svg = PORTRAIT_SVGS[key] || PORTRAIT_SVGS.taha;
+  return `<span class="portrait" style="--sz:${size}">${svg}<img src="${file}" alt="" onerror="this.remove()"></span>`;
+}
+
+/* ================= SES VE TÜRKÇE KONUŞMA SENTEZLEYİCİ (TTS + MP3) ================= */
+let AC = null;
+function ac() {
+  try {
+    if (!AC) { const C = window.AudioContext || window.webkitAudioContext; if (C) AC = new C(); }
+    if (AC && AC.state === 'suspended') AC.resume();
+  } catch (e) {}
+  return AC;
+}
+function tone(f1, f2, d, type = 'sine', v = 0.18, delay = 0) {
+  if (S.mute) return;
+  const c = ac(); if (!c) return;
+  const t = c.currentTime + delay, o = c.createOscillator(), g = c.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(f1, t);
+  o.frequency.exponentialRampToValueAtTime(Math.max(f2, 1), t + d * 0.9);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(v, t + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t + d + 0.03);
+}
+
+const fxCache = {};
+function playEffect(file, fallback) {
+  if (S.mute) return;
+  const a = fxCache[file] || (fxCache[file] = new Audio(file));
+  let done = false;
+  const fb = () => { if (!done) { done = true; fallback(); } };
+  a.onerror = fb;
+  try { a.currentTime = 0; } catch (e) {}
+  const p = a.play();
+  if (p && p.catch) p.catch(fb);
+}
+
+const SFX = {
+  click() { playEffect('tik.mp3', () => tone(980, 520, 0.06, 'triangle', 0.15)); },
+  pop() { tone(480, 880, 0.11, 'sine', 0.18); },
+  magnet() { tone(320, 640, 0.14, 'triangle', 0.2); tone(640, 960, 0.18, 'sine', 0.22, 0.08); },
+  flip() { tone(300, 780, 0.16, 'sine', 0.14); },
+  ok() { playEffect('dogru.mp3', () => [523, 659, 784, 1047].forEach((f, i) => tone(f, f, 0.15, 'triangle', 0.2, i * 0.08))); },
+  bad() { playEffect('yanlis.mp3', () => { tone(240, 120, 0.28, 'sawtooth', 0.14); tone(180, 95, 0.3, 'square', 0.08, 0.06); }); },
+  win() { playEffect('alkis.mp3', () => [523, 659, 784, 1047, 784, 1047, 1319].forEach((f, i) => tone(f, f, 0.2, 'triangle', 0.22, i * 0.1))); },
+  blow() { playEffect('ufleme.mp3', () => { [440, 554, 659, 880].forEach((f, i) => tone(f, f * 1.1, 0.22, 'sine', 0.2, i * 0.11)); }); },
+  lose() { [392, 330, 262, 196].forEach((f, i) => tone(f, f * 0.95, 0.24, 'sawtooth', 0.12, i * 0.15)); }
+};
+
+document.addEventListener('pointerdown', e => {
+  ac();
+  if (e.target.closest('button, a, .clk, .card3d, .num-tile, .char-token, .month-cell, .ss-btn, .hitap-btn, .wish-btn') && !e.target.closest('.spk')) {
+    SFX.click();
+  }
+}, true);
+
+const bgm = new Audio('muzik_nezaket.mp3');
+bgm.loop = true; bgm.volume = 0.12;
+bgm.addEventListener('error', () => {});
+
+let activeVoice = null;
+function stopVoice() {
+  if (activeVoice) { try { activeVoice.pause(); } catch (e) {} activeVoice = null; }
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+}
+function tts(text, onEnd) {
+  try {
+    if (!text || !window.speechSynthesis) { if (onEnd) onEnd(); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'tr-TR';
+    u.rate = 0.92;
+    u.pitch = 1.05;
+    if (onEnd) u.onend = onEnd;
+    speechSynthesis.speak(u);
+  } catch (e) { if (onEnd) onEnd(); }
+}
+function say(file, text, onEnd) {
+  if (S.mute) { if (onEnd) onEnd(); return; }
+  stopVoice();
+  if (!file) { tts(text, onEnd); return; }
+  const a = new Audio(file);
+  activeVoice = a;
+  let fellBack = false;
+  const fb = () => {
+    if (fellBack || activeVoice !== a) return;
+    fellBack = true; activeVoice = null;
+    tts(text, onEnd);
+  };
+  a.addEventListener('error', fb, { once: true });
+  a.addEventListener('ended', () => { if (onEnd) onEnd(); }, { once: true });
+  const p = a.play();
+  if (p && p.catch) p.catch(fb);
+}
+
+const spk = (file, text, cls = 'sm') => `<button type="button" class="spk ${cls}" data-a="${file || ''}" data-t="${esc(text)}" aria-label="Sesli Dinle">🔊</button>`;
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('.spk[data-t]');
+  if (b) {
+    e.stopPropagation();
+    say(b.dataset.a, b.dataset.t);
+    b.classList.add('playing');
+    setTimeout(() => b.classList.remove('playing'), 1100);
+  }
+}, true);
+
+/* ================= THREE.JS 3B ARKA PLAN SAHNESİ ================= */
+function initThreeBg() {
+  if (typeof THREE === 'undefined') return;
+  const canvas = $('bg-canvas');
+  let renderer, scene, camera;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 18;
+
+    const amb = new THREE.AmbientLight(0xffffff, 0.85);
+    scene.add(amb);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.65);
+    dir.position.set(10, 15, 12);
+    scene.add(dir);
+
+    const shapes = [];
+    const palette = [0xa63b75, 0xf08a9d, 0x8f3b68, 0x9d4edd, 0xc2415b, 0xd94683];
+    const geos = [
+      new THREE.IcosahedronGeometry(0.95, 0),
+      new THREE.TorusGeometry(0.7, 0.28, 12, 28),
+      new THREE.OctahedronGeometry(0.9, 0),
+      new THREE.BoxGeometry(1.1, 1.1, 1.1)
+    ];
+
+    for (let i = 0; i < 14; i++) {
+      const mat = new THREE.MeshStandardMaterial({
+        color: palette[i % palette.length],
+        roughness: 0.35,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.22
+      });
+      const mesh = new THREE.Mesh(geos[i % geos.length], mat);
+      mesh.position.set((Math.random() - 0.5) * 26, (Math.random() - 0.5) * 15, (Math.random() - 0.5) * 6 - 4);
+      mesh.userData = {
+        rx: (Math.random() - 0.5) * 0.012,
+        ry: (Math.random() - 0.5) * 0.015,
+        vy: (Math.random() * 0.008) + 0.004,
+        phase: Math.random() * Math.PI * 2
+      };
+      scene.add(mesh);
+      shapes.push(mesh);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    let t = 0;
+    function anim() {
+      requestAnimationFrame(anim);
+      t += 0.015;
+      shapes.forEach(m => {
+        m.rotation.x += m.userData.rx;
+        m.rotation.y += m.userData.ry;
+        m.position.y += Math.sin(t + m.userData.phase) * m.userData.vy;
+      });
+      renderer.render(scene, camera);
+    }
+    anim();
+  } catch (e) {}
+}
+initThreeBg();
+
+/* ================= HUD, PUAN, ZAMANLAYICI VE KONFETİ ================= */
+function renderHud() {
+  $('score').textContent = S.score;
+  $('hearts').textContent = [0, 1, 2].map(i => i < S.lives ? '❤️' : '🖤').join('');
+}
+function addScore(n, el) {
+  S.score += n; renderHud();
+  const s = $('st-score'); s.classList.remove('bump'); void s.offsetWidth; s.classList.add('bump');
+  if (el) floatPts('+' + n, el);
+}
+function floatPts(txt, el) {
+  const r = el.getBoundingClientRect(), d = document.createElement('div');
+  d.className = 'fpts'; d.textContent = txt;
+  d.style.left = (r.left + r.width / 2) + 'px';
+  d.style.top = (r.top + r.height / 2) + 'px';
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 950);
+}
+function toast(t) {
+  const e = $('toast'); e.textContent = t; e.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 2300);
+}
+function later(fn, ms) { const g = S.gen; setTimeout(() => { if (g === S.gen) fn(); }, ms); }
+function onClean(fn) { S.clean.push(fn); }
+function clearTimers() {
+  S.timers.forEach(clearInterval); S.timers = [];
+  S.clean.forEach(f => { try { f(); } catch (e) {} }); S.clean = [];
+}
+function fmt(ms) {
+  const s = Math.floor(ms / 1000);
+  return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+}
+setInterval(() => { if (S.t0) $('clock').textContent = fmt(Date.now() - S.t0); }, 500);
+
+const cv = $('confetti'), cx = cv.getContext('2d');
+let parts = [], raf = 0;
+function confetti(n = 110) {
+  cv.width = innerWidth; cv.height = innerHeight;
+  const cols = ['#0f766e', '#f59e0b', '#e11d48', '#6d28d9', '#10b981'];
+  for (let i = 0; i < n; i++) {
+    parts.push({
+      x: innerWidth / 2 + (Math.random() - 0.5) * innerWidth * 0.35,
+      y: innerHeight * 0.55,
+      vx: (Math.random() - 0.5) * 17,
+      vy: -Math.random() * 16 - 5,
+      s: 6 + Math.random() * 7,
+      c: cols[i % cols.length],
+      r: Math.random() * 6,
+      vr: (Math.random() - 0.5) * 0.35,
+      l: 0
+    });
+  }
+  if (!raf) loopConfetti();
+}
+function loopConfetti() {
+  cx.clearRect(0, 0, cv.width, cv.height);
+  parts.forEach(p => {
+    p.vy += 0.36; p.x += p.vx; p.y += p.vy; p.vx *= 0.99; p.r += p.vr; p.l++;
+    cx.save(); cx.translate(p.x, p.y); cx.rotate(p.r);
+    cx.fillStyle = p.c; cx.fillRect(-p.s / 2, -p.s / 3, p.s, p.s * 0.6);
+    cx.restore();
+  });
+  parts = parts.filter(p => p.y < cv.height + 30 && p.l < 210);
+  if (parts.length) raf = requestAnimationFrame(loopConfetti);
+  else { raf = 0; cx.clearRect(0, 0, cv.width, cv.height); }
+}
+
+function overlay(o) {
+  const ov = $('overlay');
+  ov.innerHTML = `<div class="card ovcard">
+    <div class="ovemoji">${o.emoji}</div>
+    <h2>${o.title} ${spk(o.audio || '', `${o.title}. ${o.text}`)}</h2>
+    <p>${o.text}</p>
+    ${o.stats ? `<div class="ovstats">${o.stats.map(s => `<span class="ovstat">${s}</span>`).join('')}</div>` : ''}
+    <button class="btn btn-teal" id="ov-btn" type="button">${o.btn}</button>
+  </div>`;
+  ov.classList.add('on');
+  say(o.audio || '', `${o.title}. ${o.text}`);
+  $('ov-btn').onclick = () => { ov.classList.remove('on'); o.fn(); };
+}
+
+function loseLife() {
+  S.lives = Math.max(0, S.lives - 1); renderHud();
+  const e = $('st-lives'); e.classList.remove('hurt'); void e.offsetWidth; e.classList.add('hurt');
+  if (S.lives <= 0) { gameOver(); return true; }
+  return false;
+}
+function gameOver() {
+  clearTimers(); S.gen++; stopVoice(); SFX.lose();
+  overlay({
+    emoji: '🌱',
+    title: 'Yeniden Deneyelim!',
+    text: 'Canların bitti ama hiç üzülme! Her denemede Türkçemiz daha da güçleniyor. Bu aşamayı birlikte tekrar oynayalım.',
+    btn: '↻ Aşamayı Tekrarla',
+    fn: () => { S.score = S.startScore; startStage(S.stage); }
+  });
+}
+function good(el, pts) { SFX.ok(); addScore(pts, el); }
+function bad(el) {
+  SFX.bad();
+  if (el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+  return loseLife();
+}
+
+const frame = (head, body) => `<div class="sx"><div class="shead">${head}</div><div class="sbody">${body}</div><div class="fbar" id="fb">Başlayalım!</div></div>`;
+const rhead = (n, extra = '') => `<span class="pill">Görev <b id="rn">1</b>/${n}</span><div class="dots" id="dots"></div>${extra}`;
+function setFb(m, c = '') { const f = $('fb'); if (f) { f.className = 'fbar ' + c; f.innerHTML = m; } }
+function dots(i, n) {
+  const d = $('dots'); if (d) d.innerHTML = [...Array(n)].map((_, k) => `<i class="${k < i ? 'done' : k === i ? 'on' : ''}"></i>`).join('');
+  const r = $('rn'); if (r) r.textContent = Math.min(i + 1, n);
+}
+
+/* ================= AŞAMA 1: 3B KAVRAM VE HİTAP ATÖLYESİ ================= */
+function stage1ConceptStudio(R) {
+  const CONCEPTS = [
+    {
+      title: 'YAŞ',
+      icon: '⏳',
+      color: 0xf59e0b,
+      geo: 'torus',
+      img: 'kavram_yas.jpg',
+      audio: 'kart_yas.mp3',
+      desc: 'Doğduğumuz günden bugüne kadar geçen yılların sayısıdır. Her doğum günümüzde yaşımız 1 büyür.',
+      ex: 'Örnek: “Ben dokuz yaşındayım.”',
+      svg: `<svg viewBox="0 0 200 100"><rect width="200" height="100" fill="#fef3c7"/><circle cx="50" cy="62" r="14" fill="#0284c7"/><circle cx="100" cy="52" r="20" fill="#0f766e"/><circle cx="155" cy="40" r="28" fill="#e11d48"/><text x="100" y="92" text-anchor="middle" font-weight="800" font-size="13" fill="#1e293b">Çocuk ➔ Genç ➔ Yetişkin</text></svg>`
+    },
+    {
+      title: 'SAYGI',
+      icon: '🤍',
+      color: 0x0f766e,
+      geo: 'octa',
+      img: 'kavram_saygi.jpg',
+      audio: 'kart_saygi.mp3',
+      desc: 'İnsanlara değer vermek, büyüklerimizi dikkatle dinlemek ve herkese özenli davranmaktır.',
+      ex: 'Örnek: Büyüklerimiz konuşurken sözlerini kesmeyiz.',
+      svg: `<svg viewBox="0 0 200 100"><rect width="200" height="100" fill="#ccfbf1"/><path d="M100 78 C60 55 55 25 80 25 C92 25 100 35 100 35 C100 35 108 25 120 25 C145 25 140 55 100 78 Z" fill="#e11d48"/></svg>`
+    },
+    {
+      title: 'SÖZ & HİTAP',
+      icon: '💬',
+      color: 0x0284c7,
+      geo: 'box',
+      img: 'kavram_soz.jpg',
+      audio: 'kart_soz.mp3',
+      desc: 'Söz, söylediğimiz anlamlı cümlelerdir. Hitap ise birine seslenirken kullandığımız güzel kelimelerdir.',
+      ex: 'Örnek: “Can Abi”, “Zeynep Abla”, “Ahmet Amca”.',
+      svg: `<svg viewBox="0 0 200 100"><rect width="200" height="100" fill="#e0f2fe"/><rect x="35" y="20" width="130" height="48" rx="14" fill="#fff" stroke="#1e293b" stroke-width="3"/><text x="100" y="50" text-anchor="middle" font-weight="800" font-size="15" fill="#0284c7">Merhaba Abla!</text></svg>`
+    },
+    {
+      title: 'NEZAKET',
+      icon: '🌸',
+      color: 0xe11d48,
+      geo: 'icosa',
+      img: 'kavram_nezaket.jpg',
+      audio: 'kart_nezaket.mp3',
+      desc: 'Başkalarına karşı kibar, güler yüzlü ve ince düşünceli olmaktır. Nezaket kalpleri ısıtır.',
+      ex: 'Örnek: “Lütfen”, “Teşekkür ederim”, “İyi günler”.',
+      svg: `<svg viewBox="0 0 200 100"><rect width="200" height="100" fill="#ffe4e6"/><circle cx="100" cy="50" r="26" fill="#fbbf24" stroke="#1e293b" stroke-width="3"/><circle cx="90" cy="44" r="3.5" fill="#1e293b"/><circle cx="110" cy="44" r="3.5" fill="#1e293b"/><path d="M88 56 Q100 66 112 56" stroke="#1e293b" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>`
+    },
+    {
+      title: 'DIŞARIDA HİTAP',
+      icon: '🌍',
+      color: 0x6d28d9,
+      geo: 'cone',
+      img: 'kavram_hitap.jpg',
+      audio: 'kart_kultur.mp3',
+      desc: 'Türkiye’de tanımadığımız veya akrabamız olmayan kişilere de yaşlarına göre Abi, Abla, Amca, Teyze diye sesleniriz.',
+      ex: 'Örnek: Marketten ekmek alırken “Kolay gelsin Ahmet Amca” deriz.',
+      svg: `<svg viewBox="0 0 200 100"><rect width="200" height="100" fill="#ede9fe"/><text x="100" y="45" text-anchor="middle" font-weight="800" font-size="15" fill="#6d28d9">Akraba Olmasa Bile:</text><text x="100" y="72" text-anchor="middle" font-weight="800" font-size="14" fill="#be123c">Abi • Abla • Amca • Teyze</text></svg>`
+    }
+  ];
+
+  R.innerHTML = frame(
+    `<span class="pill">🧊 3B Kavram Küplerini Çevir</span><span class="pill">Keşfedilen: <b id="st1-cnt">0</b> / 5</span>`,
+    `<div class="st1-grid">${CONCEPTS.map((c, i) => `
+      <div class="card3d" data-i="${i}" tabindex="0" role="button" aria-label="${c.title} kartını çevir">
+        <div class="card3d-inner">
+          <div class="c3d-front">
+            <span class="pill" style="font-size:0.78rem">${i + 1}. Kavram</span>
+            <div class="c3d-canvas-wrap" id="c3d- slot-${i}">
+              <canvas id="mini3d-${i}" width="120" height="110"></canvas>
+            </div>
+            <h3>${c.icon} ${c.title}</h3>
+            <small>👆 Dokun ve Keşfet</small>
+          </div>
+          <div class="c3d-back">
+            <div class="c3d-photo">${c.svg}<img src="${c.img}" alt="" onerror="this.remove()"></div>
+            <h4>${c.title} ${spk(c.audio, `${c.title}. ${c.desc} ${c.ex}`)}</h4>
+            <p>${c.desc}</p>
+            <div class="c3d-example">${c.ex}</div>
+          </div>
+        </div>
+      </div>
+    `).join('')}</div>`
+  );
+
+  // Her kartın ön yüzüne dönen 3B Three.js sembolü yerleştir
+  if (typeof THREE !== 'undefined') {
+    CONCEPTS.forEach((c, i) => {
+      const cv = $(`mini3d-${i}`);
+      if (!cv) return;
+      try {
+        const ren = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
+        ren.setSize(120, 110);
+        const scn = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, 120 / 110, 0.1, 20);
+        cam.position.z = 3.4;
+        scn.add(new THREE.AmbientLight(0xffffff, 0.85));
+        const dl = new THREE.DirectionalLight(0xffffff, 0.8);
+        dl.position.set(3, 4, 5);
+        scn.add(dl);
+
+        let g;
+        if (c.geo === 'torus') g = new THREE.TorusGeometry(0.75, 0.28, 14, 32);
+        else if (c.geo === 'octa') g = new THREE.OctahedronGeometry(0.95, 0);
+        else if (c.geo === 'box') g = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+        else if (c.geo === 'icosa') g = new THREE.IcosahedronGeometry(0.95, 0);
+        else g = new THREE.ConeGeometry(0.85, 1.4, 20);
+
+        const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: c.color, roughness: 0.3, metalness: 0.15 }));
+        scn.add(mesh);
+        let id = setInterval(() => {
+          mesh.rotation.x += 0.03;
+          mesh.rotation.y += 0.04;
+          ren.render(scn, cam);
+        }, 35);
+        S.timers.push(id);
+      } catch (e) {}
+    });
+  }
+
+  const seen = new Set();
+  R.querySelectorAll('.card3d').forEach(card => {
+    const flipCard = () => {
+      const idx = +card.dataset.i;
+      const c = CONCEPTS[idx];
+      card.classList.toggle('flipped');
+      SFX.flip();
+      if (card.classList.contains('flipped')) {
+        say(c.audio, `${c.title}. ${c.desc} ${c.ex}`);
+        if (!seen.has(idx)) {
+          seen.add(idx);
+          addScore(10, card);
+          $('st1-cnt').textContent = seen.size;
+          if (seen.size === CONCEPTS.length) {
+            setFb(`🎉 5 temel kavramı da öğrendin! <button class="btn btn-teal" id="st1-next" type="button" style="padding:0.25rem 0.9rem;font-size:0.9rem">2. Aşamaya Geç ▶</button>`, 'ok');
+            $('st1-next').onclick = () => stageDone(1);
+          } else {
+            setFb(`👏 "${c.title}" kavramını keşfettin! Diğer küpleri de çevir.`, 'ok');
+          }
+        }
+      }
+    };
+    card.addEventListener('click', flipCard);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(); } });
+  });
+
+  setFb('Üzerindeki 3 boyutlu şekiller dönen kartlara dokunarak anlamlarını dinle!');
+}
+
+/* ================= AŞAMA 2: SAYI LABORATUVARI (50 + 3 = 53 MEKANİĞİ) ================= */
+function stage2NumberLab(R) {
+  const TASKS = [
+    { person: 'Ahmet Amca', key: 'ahmet', img: 'portre_ahmet.jpg', role: 'Mahallemizin Fırıncısı', tens: 50, ones: 3, total: 53, q: 'Kaç yaşındasınız Ahmet Amca?' },
+    { person: 'Can Abi', key: 'can', img: 'portre_can.jpg', role: 'Üniversite Öğrencisi', tens: 20, ones: 4, total: 24, q: 'Sen kaç yaşındasın Can Abi?' },
+    { person: 'Ayşe Teyze', key: 'ayse', img: 'portre_ayse.jpg', role: 'Komşumuz', tens: 40, ones: 7, total: 47, q: 'Kaç yaşındasınız Ayşe Teyze?' },
+    { person: 'Zeynep Abla', key: 'zeynep', img: 'portre_zeynep.jpg', role: 'Resim Öğretmeni Adayı', tens: 10, ones: 6, total: 16, q: 'Sen kaç yaşındasın Zeynep Abla?' },
+    { person: S.name || 'Taha', key: 'taha', img: 'portre_taha.jpg', role: 'Senin Yaşlarından Bir Akranın', tens: 10, ones: 2, total: 12, q: 'Arkadaşın kaç yaşında?' }
+  ];
+
+  const TENS_LIST = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  const ONES_LIST = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  R.innerHTML = frame(
+    rhead(TASKS.length, `<span class="pill">🧲 Onluk + Birlik = Türkçe Yaş Okunuşu</span>`),
+    `<div class="st2-wrap">
+      <div class="card st2-left">
+        <div class="target-person-box" id="st2-person"></div>
+        <div class="magnet-chamber">
+          <div style="font-size:0.85rem;color:#cbd5e1">⚡ MANYETİK SAYI BİRLEŞTİRME ODASI</div>
+          <div class="chamber-formula">
+            <div class="m-slot" id="slot-tens"><b>?</b><small>Onluk Seç</small></div>
+            <span class="op-sym">+</span>
+            <div class="m-slot" id="slot-ones"><b>?</b><small>Birlik Seç</small></div>
+            <span class="op-sym">=</span>
+            <div class="m-slot result-box" id="slot-res"><b>?</b><small>Birleşim</small></div>
+          </div>
+          <div id="st2-speech" style="font-size:0.95rem;color:#fde68a;min-height:1.5em;text-align:center">
+            Sağdaki bloklardan önce <b>Onluğu</b>, sonra <b>Birliği</b> seç!
+          </div>
+          <button class="btn btn-amber" id="btn-fuse" type="button" disabled>🧲 Mıknatısları Birleştir ve Seslendir!</button>
+        </div>
+      </div>
+
+      <div class="card st2-right">
+        <div>
+          <div class="block-group-title">
+            <span>🟦 1. ADIM: ONLUK BLOKLAR (Tıkla ve Dinle)</span>
+            <small>10, 20, 30 ... 90</small>
+          </div>
+          <div class="num-grid-tens" id="grid-tens">
+            ${TENS_LIST.map(n => `<button type="button" class="num-tile tens-tile" data-v="${n}"><b>${n}</b><span>${numToTr(n)}</span></button>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="block-group-title">
+            <span>🟨 2. ADIM: BİRLİK BLOKLAR (Tıkla ve Dinle)</span>
+            <small>0, 1, 2 ... 9</small>
+          </div>
+          <div class="num-grid-ones" id="grid-ones">
+            ${ONES_LIST.map(n => `<button type="button" class="num-tile ones-tile" data-v="${n}"><b>${n}</b><span>${numToTr(n)}</span></button>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`
+  );
+
+  let idx = 0;
+  let pickedTens = null;
+  let pickedOnes = null;
+  let locked = false;
+
+  function loadRound() {
+    if (idx >= TASKS.length) { stageDone(2); return; }
+    dots(idx, TASKS.length);
+    const t = TASKS[idx];
+    pickedTens = null; pickedOnes = null; locked = false;
+
+    $('st2-person').innerHTML = `
+      ${renderPortrait(t.key, t.img, '4.3rem')}
+      <div>
+        <h3 style="font-size:1.15rem;color:var(--teal)">${t.person}</h3>
+        <small style="color:#475569;display:block">${t.role}</small>
+        <span style="font-size:0.85rem;color:var(--rose)">“${t.q}”</span>
+        ${spk('', `${t.q} Hedef yaş: ${t.total}.`)}
+      </div>
+      <div class="target-age-badge">
+        <span>HEDEF YAŞ</span>
+        <b>${t.total}</b>
+      </div>
+    `;
+
+    $('slot-tens').className = 'm-slot';
+    $('slot-tens').innerHTML = `<b>?</b><small>Onluk (${t.tens})</small>`;
+    $('slot-ones').className = 'm-slot';
+    $('slot-ones').innerHTML = `<b>?</b><small>Birlik (${t.ones})</small>`;
+    $('slot-res').className = 'm-slot result-box';
+    $('slot-res').innerHTML = `<b>?</b><small>Sonuç</small>`;
+    $('btn-fuse').disabled = true;
+    $('st2-speech').innerHTML = `Hedef sayı <b>${t.total}</b>: Sağdan <b>${t.tens}</b> ve <b>${t.ones}</b> bloklarını seç!`;
+
+    R.querySelectorAll('.num-tile').forEach(b => b.classList.remove('picked'));
+    setFb(`${t.person} ${t.total} yaşında. Onluk ve birlik blokları seçerek ${t.total} sayısını oluştur!`);
+    say('', `${t.q} ${t.total} sayısını onluk ve birlik bloklarla oluşturalım.`);
+  }
+
+  function updateChamber() {
+    const t = TASKS[idx];
+    if (pickedTens !== null) {
+      $('slot-tens').className = 'm-slot filled-tens';
+      $('slot-tens').innerHTML = `<b>${pickedTens}</b><small>“${numToTr(pickedTens)}”</small>`;
+    }
+    if (pickedOnes !== null) {
+      $('slot-ones').className = 'm-slot filled-ones';
+      $('slot-ones').innerHTML = `<b>${pickedOnes}</b><small>“${numToTr(pickedOnes)}”</small>`;
+    }
+    if (pickedTens !== null && pickedOnes !== null) {
+      $('btn-fuse').disabled = false;
+      $('st2-speech').innerHTML = `Hazır! <b>${pickedTens} (${numToTr(pickedTens)}) + ${pickedOnes} (${numToTr(pickedOnes)})</b> birleştirmek için düğmeye bas!`;
+    }
+  }
+
+  $('grid-tens').querySelectorAll('.num-tile').forEach(btn => {
+    btn.onclick = () => {
+      if (locked) return;
+      const v = +btn.dataset.v;
+      pickedTens = v;
+      $('grid-tens').querySelectorAll('.num-tile').forEach(x => x.classList.remove('picked'));
+      btn.classList.add('picked');
+      SFX.pop();
+      say('', numToTr(v));
+      updateChamber();
+    };
+  });
+
+  $('grid-ones').querySelectorAll('.num-tile').forEach(btn => {
+    btn.onclick = () => {
+      if (locked) return;
+      const v = +btn.dataset.v;
+      pickedOnes = v;
+      $('grid-ones').querySelectorAll('.num-tile').forEach(x => x.classList.remove('picked'));
+      btn.classList.add('picked');
+      SFX.pop();
+      say('', numToTr(v));
+      updateChamber();
+    };
+  });
+
+  $('btn-fuse').onclick = () => {
+    if (locked || pickedTens === null || pickedOnes === null) return;
+    const t = TASKS[idx];
+    const sum = pickedTens + pickedOnes;
+    if (pickedTens === t.tens && pickedOnes === t.ones && sum === t.total) {
+      locked = true;
+      SFX.magnet();
+      const trTens = numToTr(pickedTens);
+      const trOnes = numToTr(pickedOnes);
+      const trTotal = numToTr(sum);
+      $('slot-res').className = 'm-slot result-box fused';
+      $('slot-res').innerHTML = `<b>${sum}</b><small>“${trTotal}”</small>`;
+      const readSeq = `${trTens}, ${trOnes} daha: ${trTotal}! Ben ${trTotal} yaşındayım.`;
+      $('st2-speech').innerHTML = `🎉 <b>${pickedTens} (${trTens}) + ${pickedOnes} (${trOnes}) = ${sum} (${trTotal})!</b> “Ben ${trTotal} yaşındayım.”`;
+      good($('slot-res'), 15);
+      confetti(35);
+      setFb(`Harika! ${trTens} + ${trOnes} = ${trTotal}! Sayıların nasıl birleştiğini duydun.`, 'ok');
+      say('', readSeq);
+      later(() => { idx++; loadRound(); }, 2800);
+    } else {
+      setFb(`Seçtiğin bloklar ${pickedTens} + ${pickedOnes} = ${sum} yapıyor. Hedefimiz ${t.total}!`, 'bad');
+      bad($('btn-fuse'));
+    }
+  };
+
+  loadRound();
+}
+
+/* ================= AŞAMA 3: YAŞ MERDİVENİ VE SEN/SİZ KANTARI ================= */
+function stage3LadderAndScale(R) {
+  const CHARS = [
+    { id: 'c1', name: 'Taha', age: 8, group: 'child', key: 'taha', img: 'portre_taha.jpg', hint: 'Akranın (Seninle yaşıt çocuk)' },
+    { id: 'c2', name: 'Can Abi', age: 16, group: 'youth', key: 'can', img: 'portre_can.jpg', hint: 'Senden büyük genç' },
+    { id: 'c3', name: 'Ahmet Amca', age: 48, group: 'adult', key: 'ahmet', img: 'portre_ahmet.jpg', hint: 'Yetişkin büyüğümüz' }
+  ];
+
+  const SCALE_QUESTIONS = [
+    {
+      person: 'Taha (8 yaşında - Akranın)',
+      desc: 'Kendi yaşıtımız (akranımız) veya bizden küçük bir çocukla konuşurken hangi hitabı ve soruyu seçeriz?',
+      tilt: -8,
+      ans: 'SEN',
+      qText: 'SEN ➔ “Sen kaç yaşındasın?”',
+      wrongText: 'SİZ ➔ “Siz kaç yaşındasınız?”'
+    },
+    {
+      person: 'Ahmet Amca (48 yaşında - Yetişkin)',
+      desc: 'Bizden büyük yetişkinlerle veya yeni tanıştığımız büyüklerle konuşurken saygı için hangisini seçeriz?',
+      tilt: 8,
+      ans: 'SİZ',
+      qText: 'SİZ ➔ “Siz kaç yaşındasınız?”',
+      wrongText: 'SEN ➔ “Sen kaç yaşındasın?”'
+    },
+    {
+      person: 'Ayşe Teyze (45 yaşında - Komşumuz)',
+      desc: 'Mahallemizdeki Ayşe Teyze’ye halini hatırını ve yaşını sorarken nasıl hitap ederiz?',
+      tilt: 8,
+      ans: 'SİZ',
+      qText: 'SİZ ➔ “Nasılsınız, kaç yaşındasınız?”',
+      wrongText: 'SEN ➔ “Nasılsın, kaç yaşındasın?”'
+    }
+  ];
+
+  R.innerHTML = frame(
+    `<span class="pill">🪜 1. Görev: Kişileri Yaş Grubuna Yerleştir (<b id="st3-p">0</b>/3)</span><span class="pill">⚖️ 2. Görev: Sen / Siz Kantarı (<b id="st3-q">0</b>/3)</span>`,
+    `<div class="st3-wrap">
+      <div class="card st3-left">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="font-size:1.05rem;color:var(--violet)">👥 Kişiye Dokun veya Sürükle</h3>
+          <small style="font-size:0.78rem">Akran = Yaşıtımız olan arkadaşımız</small>
+        </div>
+        <div class="char-tray" id="char-tray">
+          ${shuffle(CHARS).map(c => `
+            <div class="char-token clk" data-id="${c.id}" data-g="${c.group}" tabindex="0" role="button">
+              ${renderPortrait(c.key, c.img, '3rem')}
+              <div>
+                <b>${c.name}</b>
+                <small>${c.age} yaşında (${numToTr(c.age)})</small>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="zones-row">
+          <div class="age-zone z-child dz" data-g="child">
+            <h4>🧒 ÇOCUK</h4>
+            <span class="z-sub">0 - 12 Yaş (Küçük / Akran)</span>
+            <div class="zone-slots" id="zs-child"></div>
+          </div>
+          <div class="age-zone z-youth dz" data-g="youth">
+            <h4>🧑 GENÇ</h4>
+            <span class="z-sub">13 - 22 Yaş (Abi / Abla)</span>
+            <div class="zone-slots" id="zs-youth"></div>
+          </div>
+          <div class="age-zone z-adult dz" data-g="adult">
+            <h4>🧓 YETİŞKİN</h4>
+            <span class="z-sub">23+ Yaş (Amca / Teyze)</span>
+            <div class="zone-slots" id="zs-adult"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card st3-right">
+        <h3 style="font-size:1.05rem;color:var(--teal);text-align:center">⚖️ Nezaket Kantarı: “SEN” mi, “SİZ” mi?</h3>
+        <div class="scale-canvas-box" id="scale-box">
+          <div id="scale-prompt" style="font-size:0.9rem;line-height:1.3">Önce soldaki 3 kişiyi yaş basamaklarına yerleştir!</div>
+          <div class="scale-beam-wrap">
+            <div class="scale-beam" id="scale-beam">
+              <div class="scale-pan">🗣️ SEN<br><small>Samimi/Akran</small></div>
+              <div class="scale-pan">🎩 SİZ<br><small>Saygılı/Büyük</small></div>
+            </div>
+            <div class="scale-fulcrum"></div>
+          </div>
+          <div class="sensiz-btns" id="ss-btns"></div>
+        </div>
+      </div>
+    </div>`
+  );
+
+  let placed = 0;
+  let selToken = null;
+  let qIdx = 0;
+
+  const tokens = [...R.querySelectorAll('.char-token')];
+  const zones = [...R.querySelectorAll('.age-zone')];
+
+  tokens.forEach(tok => {
+    tok.onclick = () => {
+      if (tok.dataset.done) return;
+      tokens.forEach(t => t.classList.remove('sel'));
+      selToken = tok;
+      tok.classList.add('sel');
+      const c = CHARS.find(x => x.id === tok.dataset.id);
+      say('', `${c.name}, ${numToTr(c.age)} yaşında. Hangi yaş grubuna girer?`);
+      setFb(`"${c.name}" seçildi. Şimdi aşağıdaki doğru yaş kutusuna (Çocuk, Genç veya Yetişkin) dokun!`);
+    };
+  });
+
+  zones.forEach(z => {
+    z.onclick = () => {
+      if (!selToken) { toast('Önce üstteki kişilerden birine dokun!'); return; }
+      if (selToken.dataset.g === z.dataset.g) {
+        selToken.dataset.done = '1';
+        selToken.classList.remove('sel');
+        z.querySelector('.zone-slots').appendChild(selToken);
+        selToken = null;
+        placed++;
+        $('st3-p').textContent = placed;
+        good(z, 10);
+        if (placed === 3) {
+          setFb('👏 Harika! Çocuk, Genç ve Yetişkin ayrımını tamamladın. Şimdi sağdaki Sen/Siz Kantarını çöz!', 'ok');
+          startScaleQuiz();
+        } else {
+          setFb('Doğru basamak! Diğer kişileri de yerleştir.', 'ok');
+        }
+      } else {
+        setFb('Yaşına dikkat et! 8 yaş Çocuk, 16 yaş Genç, 48 yaş Yetişkindir.', 'bad');
+        bad(z);
+      }
+    };
+  });
+
+  function startScaleQuiz() {
+    if (qIdx >= SCALE_QUESTIONS.length) {
+      stageDone(3);
+      return;
+    }
+    const q = SCALE_QUESTIONS[qIdx];
+    $('scale-beam').style.transform = `rotate(${q.tilt}deg)`;
+    $('scale-prompt').innerHTML = `<b style="color:var(--rose)">${q.person}</b><br>${q.desc} ${spk('', `${q.person}. ${q.desc}`)}`;
+    say('', `${q.person}. ${q.desc}`);
+
+    const opts = shuffle([
+      { k: q.ans, label: q.qText, ok: true },
+      { k: q.ans === 'SEN' ? 'SİZ' : 'SEN', label: q.wrongText, ok: false }
+    ]);
+
+    $('ss-btns').innerHTML = opts.map(o => `
+      <button type="button" class="ss-btn" data-ok="${o.ok ? '1' : '0'}">
+        <b>${o.k}</b>
+        <span>${o.label.split('➔')[1]}</span>
+      </button>
+    `).join('');
+
+    $('ss-btns').querySelectorAll('.ss-btn').forEach(btn => {
+      btn.onclick = () => {
+        if (btn.dataset.ok === '1') {
+          $('scale-beam').style.transform = 'rotate(0deg)';
+          qIdx++;
+          $('st3-q').textContent = qIdx;
+          good(btn, 15);
+          confetti(30);
+          setFb('⚖️ Kantar dengelendi! Yaşa uygun soru kalıbını seçtin.', 'ok');
+          later(startScaleQuiz, 1100);
+        } else {
+          setFb('Dikkat! Akranlarımıza "Sen kaç yaşındasın?", büyüklerimize "Siz kaç yaşındasınız?" deriz.', 'bad');
+          bad(btn);
+        }
+      };
+    });
+  }
+
+  setFb('Önce üstteki 3 kişiye dokunup Çocuk, Genç ve Yetişkin kutularına yerleştir!');
+}
+
+/* ================= AŞAMA 4: MEVSİMLER, AYLAR TABLOSU VE DOĞUM GÜNÜ ================= */
+function stage4SeasonsAndMonths(R) {
+  const SEASONS = [
+    { name: 'İLKBAHAR', icon: '🌸', cls: 's-spring', months: ['Mart', 'Nisan', 'Mayıs'] },
+    { name: 'YAZ', icon: '☀️', cls: 's-summer', months: ['Haziran', 'Temmuz', 'Ağustos'] },
+    { name: 'SONBAHAR', icon: '🍂', cls: 's-autumn', months: ['Eylül', 'Ekim', 'Kasım'] },
+    { name: 'KIŞ', icon: '❄️', cls: 's-winter', months: ['Aralık', 'Ocak', 'Şubat'] }
+  ];
+
+  const MISSIONS = [
+    {
+      title: 'Görev 1: Taha’nın Doğum Günü',
+      desc: 'Taha, İlkbahar mevsiminin son ayında ve ayın 23. gününde doğdu. Tablodan doğru ayı ve günü seç!',
+      targetMonth: 'Mayıs',
+      targetDay: 23,
+      isUser: false
+    },
+    {
+      title: 'Görev 2: Beyza’nın Doğum Günü',
+      desc: 'Beyza, Sonbahar mevsiminin ikinci ayında (Cumhuriyet Bayramımızın da olduğu ayda) ve 29. günde doğdu.',
+      targetMonth: 'Ekim',
+      targetDay: 29,
+      isUser: false
+    },
+    {
+      title: `Görev 3: Şimdi Sıra Sende (${S.name || 'Öğrenci'})!`,
+      desc: 'Tablodan kendi doğduğun ayı seç, günü kendi doğum gününe ayarla ve Türkçe seslendir! (Yılı söylememize gerek yok, gün ve ay yeterli!)',
+      targetMonth: null,
+      targetDay: null,
+      isUser: true
+    }
+  ];
+
+  R.innerHTML = frame(
+    rhead(MISSIONS.length, `<span class="pill">🗓️ Mevsimler ve Aylar Tablosu (Yıl Yok, Gün ve Ay!)</span>`),
+    `<div class="st4-wrap">
+      <div class="card seasons-board">
+        ${SEASONS.map(s => `
+          <div class="season-box ${s.cls}">
+            <div class="season-head">
+              <span>${s.icon} ${s.name}</span>
+              ${spk('', `${s.name} mevsimi ayları: ${s.months.join(', ')}.`)}
+            </div>
+            <div class="months-row">
+              ${s.months.map(m => `
+                <button type="button" class="month-cell" data-m="${m}" data-s="${s.name}">
+                  ${m}
+                  <small>${s.name}</small>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="card bday-builder">
+        <div class="bday-task-card" id="st4-task"></div>
+
+        <div class="day-selector">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-family:var(--fh);font-size:0.95rem">🔢 Doğum Günü Sayısı (1 - 31)</span>
+            <small style="color:var(--teal)">Sayıyı Türkçe Dinle</small>
+          </div>
+          <div class="day-stepper">
+            <button type="button" class="btn btn-white" id="d-m5" style="padding:0.3rem 0.6rem">-5</button>
+            <button type="button" class="btn btn-white" id="d-m1" style="padding:0.3rem 0.7rem">-1</button>
+            <div class="day-display" id="day-disp">
+              <b>15</b>
+              <span>“on beş”</span>
+            </div>
+            <button type="button" class="btn btn-white" id="d-p1" style="padding:0.3rem 0.7rem">+1</button>
+            <button type="button" class="btn btn-white" id="d-p5" style="padding:0.3rem 0.6rem">+5</button>
+          </div>
+        </div>
+
+        <div class="bday-preview" id="bday-prev">
+          Seçilen Tarih: <b id="prev-txt">15 Mayıs (on beş Mayıs)</b>
+        </div>
+
+        <button type="button" class="btn btn-rose" id="btn-bday-ok">🎤 Doğum Gününü Türkçe Seslendir ve Onayla</button>
+      </div>
+    </div>`
+  );
+
+  let mIdx = 0;
+  let curMonth = 'Mayıs';
+  let curSeason = 'İLKBAHAR';
+  let curDay = 15;
+
+  function renderPreview() {
+    const dTr = numToTr(curDay);
+    $('day-disp').innerHTML = `<b>${curDay}</b><span>“${dTr}”</span>`;
+    $('prev-txt').textContent = `${curDay} ${curMonth} (“${dTr} ${curMonth}”)`;
+    R.querySelectorAll('.month-cell').forEach(c => c.classList.toggle('active', c.dataset.m === curMonth));
+  }
+
+  function loadMission() {
+    if (mIdx >= MISSIONS.length) { stageDone(4); return; }
+    dots(mIdx, MISSIONS.length);
+    const ms = MISSIONS[mIdx];
+    $('st4-task').innerHTML = `
+      <h3 style="font-size:1.05rem;color:var(--rose)">${ms.title} ${spk('', `${ms.title}. ${ms.desc}`)}</h3>
+      <p style="font-size:0.86rem;line-height:1.32;margin-top:0.25rem">${ms.desc}</p>
+    `;
+    renderPreview();
+    say('', `${ms.title}. ${ms.desc}`);
+  }
+
+  R.querySelectorAll('.month-cell').forEach(cell => {
+    cell.onclick = () => {
+      curMonth = cell.dataset.m;
+      curSeason = cell.dataset.s;
+      SFX.pop();
+      renderPreview();
+      say('', `${curMonth}, ${curSeason} mevsimindedir.`);
+    };
+  });
+
+  const adjDay = delta => {
+    curDay = Math.max(1, Math.min(31, curDay + delta));
+    SFX.pop();
+    renderPreview();
+    say('', numToTr(curDay));
+  };
+  $('d-m5').onclick = () => adjDay(-5);
+  $('d-m1').onclick = () => adjDay(-1);
+  $('d-p1').onclick = () => adjDay(1);
+  $('d-p5').onclick = () => adjDay(5);
+
+  $('btn-bday-ok').onclick = () => {
+    const ms = MISSIONS[mIdx];
+    const dTr = numToTr(curDay);
+    if (ms.isUser) {
+      S.userBday = `${curDay} ${curMonth}`;
+      const sentence = `Benim doğum günüm ${dTr} ${curMonth}, ${curSeason} mevsimi!`;
+      good($('btn-bday-ok'), 20);
+      confetti(50);
+      setFb(`🎂 Harika! "${sentence}" diyerek kendi doğum gününü Türkçe seslendirdin!`, 'ok');
+      say('', sentence);
+      later(() => { mIdx++; loadMission(); }, 2500);
+    } else {
+      if (curMonth === ms.targetMonth && curDay === ms.targetDay) {
+        const sentence = `Doğum günü ${dTr} ${curMonth}!`;
+        good($('btn-bday-ok'), 15);
+        confetti(30);
+        setFb(`👏 Doğru! ${curDay} (${dTr}) ${curMonth} tarihini buldun ve seslendirdin.`, 'ok');
+        say('', sentence);
+        later(() => { mIdx++; loadMission(); }, 2100);
+      } else {
+        setFb(`İpucuna dikkat et: Hedefimiz ${ms.targetDay} (${numToTr(ms.targetDay)}) ${ms.targetMonth}!`, 'bad');
+        bad($('btn-bday-ok'));
+      }
+    }
+  };
+
+  loadMission();
+}
+
+/* ================= AŞAMA 5: HİTAP KÖPRÜSÜ (KARŞILAŞTIRMALI SESLENİŞ) ================= */
+function stage5HitapBridge(R) {
+  const SCENARIOS = [
+    {
+      p1: { name: 'Beyza', age: 8, key: 'beyza', img: 'portre_beyza.jpg' },
+      p2: { name: 'Zeynep', age: 15, key: 'zeynep', img: 'portre_zeynep.jpg' },
+      rel: 'Zeynep (15), Beyza’dan (8) büyüktür ve genç bir kızdır.',
+      q: '8 yaşındaki Beyza, 15 yaşındaki Zeynep’e nasıl seslenir?',
+      ans: 'Zeynep Abla!',
+      choices: ['Zeynep Abla!', 'Zeynep Teyze!', 'Zeynep Abi!', 'Sadece Zeynep!']
+    },
+    {
+      p1: { name: 'Taha', age: 9, key: 'taha', img: 'portre_taha.jpg' },
+      p2: { name: 'Can', age: 17, key: 'can', img: 'portre_can.jpg' },
+      rel: 'Can (17), Taha’dan (9) büyüktür ve genç bir erkektir.',
+      q: '9 yaşındaki Taha, 17 yaşındaki Can’a nasıl seslenir?',
+      ans: 'Can Abi!',
+      choices: ['Can Abi!', 'Can Amca!', 'Can Abla!', 'Can Kardeşim!']
+    },
+    {
+      p1: { name: 'Taha', age: 9, key: 'taha', img: 'portre_taha.jpg' },
+      p2: { name: 'Beyza', age: 9, key: 'beyza', img: 'portre_beyza.jpg' },
+      rel: 'Taha ve Beyza ikisi de 9 yaşındadır. Yani AKRAN (yaşıt) arkadaştırlar.',
+      q: 'Akran olan Taha, yaşıtı Beyza’ya nasıl seslenir?',
+      ans: 'Beyza!',
+      choices: ['Beyza!', 'Beyza Abla!', 'Beyza Teyze!', 'Beyza Hanım!']
+    },
+    {
+      p1: { name: 'Beyza', age: 8, key: 'beyza', img: 'portre_beyza.jpg' },
+      p2: { name: 'Ahmet Bey', age: 46, key: 'ahmet', img: 'portre_ahmet.jpg' },
+      rel: 'Ahmet Bey (46) mahalledeki bakkaldır. Akraba olmasa da yetişkin bir büyüktür.',
+      q: 'Beyza, mahalledeki Ahmet Bey’e saygıyla nasıl seslenir?',
+      ans: 'Ahmet Amca!',
+      choices: ['Ahmet Amca!', 'Ahmet Abi!', 'Ahmet!', 'Ahmet Teyze!']
+    },
+    {
+      p1: { name: 'Taha', age: 9, key: 'taha', img: 'portre_taha.jpg' },
+      p2: { name: 'Ayşe Hanım', age: 44, key: 'ayse', img: 'portre_ayse.jpg' },
+      rel: 'Ayşe Hanım (44) parkta karşılaştığımız yetişkin bir kadındır.',
+      q: 'Taha, parkta gördüğü Ayşe Hanım’a nezaketle nasıl seslenir?',
+      ans: 'Ayşe Teyze!',
+      choices: ['Ayşe Teyze!', 'Ayşe Abla!', 'Ayşe!', 'Ayşe Amca!']
+    }
+  ];
+
+  R.innerHTML = frame(
+    rhead(SCENARIOS.length, `<span class="pill">🌉 Yaşları Karşılaştır, Doğru Hitap Köprüsünü Kur!</span>`),
+    `<div class="st5-wrap">
+      <div class="card bridge-arena" id="bridge-arena"></div>
+      <div class="hitap-options" id="hitap-opts"></div>
+    </div>`
+  );
+
+  let idx = 0;
+  function loadScenario() {
+    if (idx >= SCENARIOS.length) { stageDone(5); return; }
+    dots(idx, SCENARIOS.length);
+    const s = SCENARIOS[idx];
+
+    $('bridge-arena').innerHTML = `
+      <div class="person-pillar">
+        ${renderPortrait(s.p1.key, s.p1.img, '4.5rem')}
+        <h3 style="font-size:1.2rem">${s.p1.name}</h3>
+        <span class="age-pill">${s.p1.age} Yaşında (${numToTr(s.p1.age)})</span>
+        <small>Seslenen Kişi 🗣️</small>
+      </div>
+
+      <div class="bridge-center">
+        <div class="rel-badge">${s.rel}</div>
+        <p style="font-size:0.95rem;font-weight:800;color:var(--ink)">${s.q} ${spk('', `${s.rel} ${s.q}`)}</p>
+        <div class="speech-slot" id="bridge-slot">💬 “Merhaba <span style="color:var(--rose)">.......</span>”</div>
+      </div>
+
+      <div class="person-pillar">
+        ${renderPortrait(s.p2.key, s.p2.img, '4.5rem')}
+        <h3 style="font-size:1.2rem">${s.p2.name}</h3>
+        <span class="age-pill" style="background:var(--rose)">${s.p2.age} Yaşında (${numToTr(s.p2.age)})</span>
+        <small>Dinleyen Kişi 👂</small>
+      </div>
+    `;
+
+    say('', `${s.rel} ${s.q}`);
+    let done = false;
+
+    $('hitap-opts').innerHTML = shuffle(s.choices).map(ch => `
+      <button type="button" class="hitap-btn" data-v="${ch}">
+        <span>${ch}</span>
+        ${spk('', ch)}
+      </button>
+    `).join('');
+
+    $('hitap-opts').querySelectorAll('.hitap-btn').forEach(btn => {
+      btn.onclick = e => {
+        if (e.target.closest('.spk') || done) return;
+        if (btn.dataset.v === s.ans) {
+          done = true;
+          btn.classList.add('good');
+          $('bridge-slot').innerHTML = `💬 “Merhaba <b style="color:var(--emerald)">${s.ans}</b>”`;
+          good(btn, 15);
+          confetti(35);
+          setFb(`🌉 Harika! ${s.p1.name}, ${s.p2.name} kişisine “${s.ans}” diye seslendi.`, 'ok');
+          say('', `Merhaba ${s.ans}`);
+          later(() => { idx++; loadScenario(); }, 1500);
+        } else {
+          btn.classList.add('bad');
+          setFb('Yaş farkına dikkat et! Genç büyüklere Abi/Abla, yetişkin büyüklere Amca/Teyze, yaşıtımıza ismiyle sesleniriz.', 'bad');
+          bad(btn);
+        }
+      };
+    });
+  }
+
+  loadScenario();
+}
+
+/* ================= AŞAMA 6: 3B DOĞUM GÜNÜ PASTASI VE NEZAKET KUTLAMASI ================= */
+function stage6Birthday3D(R) {
+  const WISH_ROUNDS = [
+    {
+      who: 'Beyza (Akranın - 9 yaşına giriyor)',
+      key: 'beyza',
+      img: 'portre_beyza.jpg',
+      line: 'Bugün benim doğum günüm! Pastamdaki mumları birlikte üfleyelim mi?',
+      q: 'Doğum günü kutlanan arkadaşına ne söylersin?',
+      ans: 'İyi ki doğdun Beyza, mutlu yıllar!',
+      opts: [
+        'İyi ki doğdun Beyza, mutlu yıllar!',
+        'Geçmiş olsun Beyza!',
+        'Afiyet olsun, eline sağlık!'
+      ]
+    },
+    {
+      who: 'Zeynep Abla (16 yaşına giriyor)',
+      key: 'zeynep',
+      img: 'portre_zeynep.jpg',
+      line: 'Çok teşekkür ederim! Benim için güzel bir doğum günü dileğin var mı?',
+      q: 'Zeynep Abla’nın yeni yaşını nasıl kutlarsın?',
+      ans: 'Doğum günün kutlu olsun Zeynep Abla, nice mutlu yaşlara!',
+      opts: [
+        'Doğum günün kutlu olsun Zeynep Abla, nice mutlu yaşlara!',
+        'Sen kaç yaşındasın Zeynep Teyze?',
+        'Yolun açık olsun, güle güle!'
+      ]
+    },
+    {
+      who: 'Ahmet Amca (50 yaşına giriyor)',
+      key: 'ahmet',
+      img: 'portre_ahmet.jpg',
+      line: 'Bugün benim de doğum günüm çocuklar! Yarım asırlık oldum.',
+      q: 'Bizden büyük Ahmet Amca’nın doğum gününü saygı ve nezaketle nasıl kutlarız?',
+      ans: 'Doğum gününüz kutlu olsun Ahmet Amca, sağlıklı ve mutlu yıllar dilerim!',
+      opts: [
+        'Doğum gününüz kutlu olsun Ahmet Amca, sağlıklı ve mutlu yıllar dilerim!',
+        'Hey Ahmet, iyi ki doğdun!',
+        'Merhaba Ahmet Abi, kaç yaşındasın?'
+      ]
+    }
+  ];
+
+  R.innerHTML = frame(
+    rhead(WISH_ROUNDS.length, `<span class="pill">🎂 3 Boyutlu Pastayı Döndür, Mumları Üfle ve Kutla!</span>`),
+    `<div class="st6-wrap">
+      <div class="card cake-stage-card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="pill">🕯️ Kutlama Pastası</span>
+          <small style="font-weight:800;color:#8f3b68">Pastayı sürükleyerek döndür</small>
+        </div>
+        <div id="cake3d-host"></div>
+        <div class="cake-controls">
+          <span id="candle-status" role="status" aria-live="polite" style="font-size:0.88rem;font-weight:800">🔥 Mumlar yanıyor</span>
+          <button type="button" class="btn btn-amber" id="btn-blow" style="padding:0.3rem 0.85rem;font-size:0.9rem">🌬️ Mumları Üfle!</button>
+        </div>
+      </div>
+
+      <div class="card party-right">
+        <div class="bday-dialogue-box" id="bday-dlg"></div>
+        <div style="font-family:var(--fh);font-size:1rem;color:var(--violet)" id="bday-q"></div>
+        <div class="wish-choices" id="wish-list"></div>
+      </div>
+    </div>`
+  );
+
+  // Pastayı ve mumları Three.js ile sahnede oluştur; dış görsel dosyası gerekmez.
+  let flames = [];
+  let candlesLit = true;
+  let extinguishProgress = 0;
+  let smokePuffs = [];
+  let cakeGroup = null;
+  let renderer = null;
+
+  if (typeof THREE !== 'undefined') {
+    const host = $('cake3d-host');
+    try {
+      const w = host.clientWidth || 320, h = host.clientHeight || 220;
+      renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.82;
+      renderer.domElement.setAttribute('aria-label', 'Üzerinde yanan mumlar olan üç katlı doğum günü pastası');
+      renderer.domElement.setAttribute('role', 'img');
+      host.appendChild(renderer.domElement);
+
+      const scn = new THREE.Scene();
+      const cam = new THREE.PerspectiveCamera(35, w / h, 0.1, 50);
+      cam.position.set(0, 3.7, 8.4);
+      cam.lookAt(0, 0.6, 0);
+
+      scn.add(new THREE.HemisphereLight(0xfff4fb, 0x69458c, 0.72));
+      const keyLight = new THREE.DirectionalLight(0xfff4f8, 0.92);
+      keyLight.position.set(-4, 7, 5);
+      scn.add(keyLight);
+      const rimLight = new THREE.PointLight(0xc084fc, 0.72, 16);
+      rimLight.position.set(4, 3, -3);
+      scn.add(rimLight);
+      const candleLight = new THREE.PointLight(0xffa64d, 0.55, 5);
+      candleLight.position.set(0, 2.1, 0);
+      scn.add(candleLight);
+
+      cakeGroup = new THREE.Group();
+      scn.add(cakeGroup);
+      const mat = (color, roughness = 0.38, metalness = 0) =>
+        new THREE.MeshStandardMaterial({ color, roughness, metalness });
+
+      const plate = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.3, 2.15, 0.12, 64),
+        mat(0xfffafd, 0.16, 0.18)
+      );
+      plate.position.y = -0.8;
+      cakeGroup.add(plate);
+      const plateTrim = new THREE.Mesh(
+        new THREE.TorusGeometry(2.12, 0.035, 10, 72),
+        mat(0xd8a9c8, 0.2, 0.45)
+      );
+      plateTrim.rotation.x = Math.PI / 2;
+      plateTrim.position.y = -0.72;
+      cakeGroup.add(plateTrim);
+
+      const tiers = [
+        { radius: 1.72, height: 0.76, y: -0.31, color: 0xd94f8c },
+        { radius: 1.34, height: 0.72, y: 0.43, color: 0xf7b7d2 },
+        { radius: 0.96, height: 0.65, y: 1.1, color: 0xc084fc }
+      ];
+      tiers.forEach((tier, tierIndex) => {
+        const body = new THREE.Mesh(
+          new THREE.CylinderGeometry(tier.radius, tier.radius * 1.035, tier.height, 64),
+          mat(tier.color, 0.3)
+        );
+        body.position.y = tier.y;
+        cakeGroup.add(body);
+
+        const frosting = new THREE.Mesh(
+          new THREE.CylinderGeometry(tier.radius + 0.045, tier.radius + 0.045, 0.12, 64),
+          mat(tierIndex === 1 ? 0xfff2fa : 0xfff7fc, 0.24)
+        );
+        frosting.position.y = tier.y + tier.height / 2 - 0.02;
+        cakeGroup.add(frosting);
+
+        const beadCount = tierIndex === 0 ? 22 : 18;
+        for (let i = 0; i < beadCount; i++) {
+          const angle = (i / beadCount) * Math.PI * 2;
+          const dripLength = 0.12 + ((i * 7 + tierIndex * 3) % 5) * 0.035;
+          const drip = new THREE.Mesh(
+            new THREE.SphereGeometry(0.095, 12, 10),
+            mat(0xfff7fc, 0.25)
+          );
+          drip.scale.set(0.78, 1.05 + dripLength, 0.78);
+          drip.position.set(
+            Math.cos(angle) * (tier.radius + 0.018),
+            tier.y + tier.height / 2 - 0.07 - dripLength * 0.32,
+            Math.sin(angle) * (tier.radius + 0.018)
+          );
+          cakeGroup.add(drip);
+        }
+
+        const sprinkleColors = [0x9d4edd, 0xff719f, 0xffd166, 0x70d6ff, 0xffffff];
+        for (let i = 0; i < 30; i++) {
+          const angle = i * 2.399;
+          const radius = tier.radius * (0.72 + (i % 4) * 0.055);
+          const sprinkle = new THREE.Mesh(
+            new THREE.BoxGeometry(0.105, 0.035, 0.035),
+            mat(sprinkleColors[i % sprinkleColors.length], 0.28)
+          );
+          sprinkle.position.set(
+            Math.cos(angle) * radius,
+            tier.y + tier.height / 2 + 0.045,
+            Math.sin(angle) * radius
+          );
+          sprinkle.rotation.y = -angle;
+          cakeGroup.add(sprinkle);
+        }
+      });
+
+      // The top tier is crowned with piped cream, berries, and pastel candles.
+      const creamDots = 12;
+      for (let i = 0; i < creamDots; i++) {
+        const angle = (i / creamDots) * Math.PI * 2;
+        const cream = new THREE.Mesh(
+          new THREE.SphereGeometry(0.115, 16, 12),
+          mat(0xfff7fc, 0.22)
+        );
+        cream.position.set(Math.cos(angle) * 0.77, 1.49, Math.sin(angle) * 0.77);
+        cakeGroup.add(cream);
+      }
+      for (let i = 0; i < 3; i++) {
+        const angle = (i / 3) * Math.PI * 2 + 0.4;
+        const berry = new THREE.Mesh(
+          new THREE.SphereGeometry(0.19, 20, 16),
+          mat(i % 2 ? 0xe94e78 : 0xff6384, 0.24)
+        );
+        berry.scale.set(0.82, 1.18, 0.82);
+        berry.position.set(Math.cos(angle) * 0.42, 1.68, Math.sin(angle) * 0.42);
+        cakeGroup.add(berry);
+        for (let seed = 0; seed < 5; seed++) {
+          const dot = new THREE.Mesh(
+            new THREE.SphereGeometry(0.018, 6, 6),
+            mat(0xfff2b2, 0.3)
+          );
+          const seedAngle = seed * 2.4;
+          dot.position.set(
+            berry.position.x + Math.cos(seedAngle) * 0.11,
+            berry.position.y + (seed - 2) * 0.035,
+            berry.position.z + Math.sin(seedAngle) * 0.11
+          );
+          cakeGroup.add(dot);
+        }
+      }
+
+      const candleColors = [0xffd166, 0x70d6ff, 0xff719f, 0xc084fc, 0x7bdcb5];
+      for (let i = 0; i < 5; i++) {
+        const angle = (i / 5) * Math.PI * 2 + Math.PI / 5;
+        const radius = i === 0 ? 0 : 0.48;
+        const cx = i === 0 ? 0 : Math.cos(angle) * radius;
+        const cz = i === 0 ? 0 : Math.sin(angle) * radius;
+        const candle = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.065, 0.075, 0.58, 18),
+          mat(candleColors[i], 0.25)
+        );
+        candle.position.set(cx, 1.92, cz);
+        cakeGroup.add(candle);
+
+        const wick = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.012, 0.012, 0.1, 8),
+          mat(0x513f50, 0.7)
+        );
+        wick.position.set(cx, 2.26, cz);
+        cakeGroup.add(wick);
+
+        const flame = new THREE.Group();
+        const outerFlame = new THREE.Mesh(
+          new THREE.ConeGeometry(0.1, 0.29, 16),
+          new THREE.MeshBasicMaterial({ color: 0xff8a35 })
+        );
+        outerFlame.position.y = 0.14;
+        flame.add(outerFlame);
+        const innerFlame = new THREE.Mesh(
+          new THREE.ConeGeometry(0.045, 0.17, 14),
+          new THREE.MeshBasicMaterial({ color: 0xfff1a8 })
+        );
+        innerFlame.position.y = 0.08;
+        flame.add(innerFlame);
+        flame.position.set(cx, 2.36, cz);
+        flame.userData.phase = i * 1.7;
+        cakeGroup.add(flame);
+        flames.push(flame);
+      }
+
+      for (let i = 0; i < 32; i++) {
+        const angle = i * 2.399;
+        const star = new THREE.Mesh(
+          new THREE.SphereGeometry(0.018 + (i % 3) * 0.008, 8, 8),
+          new THREE.MeshBasicMaterial({ color: i % 2 ? 0xffc7df : 0xe0b7ff })
+        );
+        star.position.set(Math.cos(angle) * (2.35 + (i % 4) * 0.2), -0.15 + (i % 7) * 0.34, Math.sin(angle) * 1.2);
+        cakeGroup.add(star);
+      }
+
+      for (let i = 0; i < 12; i++) {
+        const puff = new THREE.Mesh(
+          new THREE.SphereGeometry(0.12 + Math.random() * 0.07, 12, 10),
+          new THREE.MeshBasicMaterial({ color: 0xf4e7ef, transparent: true, opacity: 0 })
+        );
+        puff.visible = false;
+        puff.userData = { vx: 0, vy: 0, vz: 0, life: 0 };
+        scn.add(puff);
+        smokePuffs.push(puff);
+      }
+
+      // Sürükleyerek Pastayı Döndürme
+      let dragging = false, prevX = 0;
+      const onPointerDown = e => { dragging = true; prevX = e.clientX; };
+      const onPointerUp = () => { dragging = false; };
+      host.addEventListener('pointerdown', onPointerDown);
+      window.addEventListener('pointerup', onPointerUp);
+      const onPointerMove = e => {
+        if (dragging) {
+          cakeGroup.rotation.y += (e.clientX - prevX) * 0.015;
+          prevX = e.clientX;
+        }
+      };
+      host.addEventListener('pointermove', onPointerMove);
+      const onResize = () => {
+        const width = host.clientWidth || 320, height = host.clientHeight || 220;
+        renderer.setSize(width, height);
+        cam.aspect = width / height;
+        cam.updateProjectionMatrix();
+      };
+      window.addEventListener('resize', onResize);
+      onClean(() => {
+        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('resize', onResize);
+        host.removeEventListener('pointerdown', onPointerDown);
+        host.removeEventListener('pointermove', onPointerMove);
+        scn.traverse(obj => {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            const materials = Array.isArray(obj.material) ? obj.material : [obj.material];
+            materials.forEach(material => material.dispose());
+          }
+        });
+        renderer.dispose();
+        renderer.domElement.remove();
+      });
+
+      let tickT = 0;
+      const timerId = setInterval(() => {
+        tickT += 0.12;
+        if (!dragging) cakeGroup.rotation.y += 0.012;
+        flames.forEach(f => {
+          const flicker = 0.9 + Math.sin(tickT * 2.4 + f.userData.phase) * 0.12;
+          const fade = Math.max(0.01, 1 - extinguishProgress);
+          f.visible = candlesLit || extinguishProgress < 1;
+          f.scale.set(1, flicker * fade, 1);
+        });
+        if (!candlesLit && extinguishProgress < 1) {
+          extinguishProgress = Math.min(1, extinguishProgress + 0.075);
+          candleLight.intensity = Math.max(0, 1.4 * (1 - extinguishProgress));
+        } else if (candlesLit) {
+          extinguishProgress = Math.max(0, extinguishProgress - 0.12);
+          candleLight.intensity = 1.4;
+        }
+        smokePuffs.forEach(puff => {
+          if (!puff.visible) return;
+          puff.userData.life += 0.035;
+          puff.position.x += puff.userData.vx;
+          puff.position.y += puff.userData.vy;
+          puff.position.z += puff.userData.vz;
+          puff.scale.addScalar(0.018);
+          puff.material.opacity = Math.max(0, 0.42 * (1 - puff.userData.life));
+          if (puff.userData.life >= 1) puff.visible = false;
+        });
+        renderer.render(scn, cam);
+      }, 30);
+      S.timers.push(timerId);
+    } catch (e) {
+      console.error('Aşama 6 Three.js sahnesi oluşturulamadı; çizim yedeği gösteriliyor.', e);
+      if (renderer) renderer.dispose();
+      host.innerHTML = '<div class="cake-fallback" role="img" aria-label="Pembe üç katlı doğum günü pastası ve yanan mumlar"><span class="cake-fallback-flames">🔥 🔥 🔥</span><span class="cake-fallback-tier tier-top"></span><span class="cake-fallback-tier tier-mid"></span><span class="cake-fallback-tier tier-bottom"></span><span class="cake-fallback-plate"></span></div>';
+    }
+  } else {
+    $('cake3d-host').innerHTML = '<div class="cake-fallback" role="img" aria-label="Pembe üç katlı doğum günü pastası ve yanan mumlar"><span class="cake-fallback-flames">🔥 🔥 🔥</span><span class="cake-fallback-tier tier-top"></span><span class="cake-fallback-tier tier-mid"></span><span class="cake-fallback-tier tier-bottom"></span><span class="cake-fallback-plate"></span></div>';
+  }
+
+  function blowCandles() {
+    if (!candlesLit) return;
+    candlesLit = false;
+    extinguishProgress = 0;
+    $('cake3d-host').closest('.cake-stage-card').classList.add('is-out');
+    SFX.blow();
+    confetti(42);
+    $('candle-status').textContent = '💨 Mumlar söndü!';
+    $('btn-blow').textContent = '✨ Mumları Yeniden Yak';
+    flames.forEach(flame => {
+      const pos = new THREE.Vector3();
+      flame.getWorldPosition(pos);
+      const puff = smokePuffs.shift();
+      if (!puff) return;
+      puff.position.copy(pos);
+      puff.scale.setScalar(0.7);
+      puff.material.opacity = 0.42;
+      puff.userData = {
+        vx: -0.018 - Math.random() * 0.02,
+        vy: 0.018 + Math.random() * 0.02,
+        vz: (Math.random() - 0.5) * 0.025,
+        life: 0
+      };
+      puff.visible = true;
+      smokePuffs.push(puff);
+    });
+  }
+
+  function relightCandles() {
+    candlesLit = true;
+    extinguishProgress = 1;
+    $('cake3d-host').closest('.cake-stage-card').classList.remove('is-out');
+    SFX.pop();
+    $('candle-status').textContent = '🔥 Mumlar yanıyor';
+    $('btn-blow').textContent = '🌬️ Mumları Üfle!';
+  }
+
+  $('btn-blow').onclick = () => candlesLit ? blowCandles() : relightCandles();
+
+  let rIdx = 0;
+  let lastCorrectPosition = -1;
+  function loadWishRound() {
+    if (rIdx >= WISH_ROUNDS.length) { stageDone(6); return; }
+    dots(rIdx, WISH_ROUNDS.length);
+    const w = WISH_ROUNDS[rIdx];
+    candlesLit = true;
+    extinguishProgress = 0;
+    $('cake3d-host').closest('.cake-stage-card').classList.remove('is-out');
+    $('candle-status').textContent = '🔥 Mumlar Yanıyor!';
+    $('btn-blow').textContent = '🌬️ Mumları Üfle!';
+
+    $('bday-dlg').innerHTML = `
+      ${renderPortrait(w.key, w.img, '4rem')}
+      <div>
+        <b style="color:var(--rose);font-size:1rem">${w.who}</b>
+        <p style="font-size:0.9rem;margin-top:0.2rem">“${w.line}”</p>
+      </div>
+      ${spk('', `${w.who}. ${w.line} ${w.q}`)}
+    `;
+    $('bday-q').textContent = `❓ ${w.q}`;
+    say('', `${w.who}. ${w.line} ${w.q}`);
+
+    let done = false;
+    const choices = shuffle(w.opts);
+    let correctPosition = choices.indexOf(w.ans);
+    if (correctPosition === lastCorrectPosition) {
+      const alternatives = choices.map((_, i) => i).filter(i => i !== correctPosition);
+      const swapPosition = alternatives[Math.floor(Math.random() * alternatives.length)];
+      [choices[correctPosition], choices[swapPosition]] = [choices[swapPosition], choices[correctPosition]];
+      correctPosition = swapPosition;
+    }
+    lastCorrectPosition = correctPosition;
+
+    $('wish-list').innerHTML = choices.map(o => `
+      <div class="wish-row">
+        ${spk('', o)}
+        <button type="button" class="wish-btn" data-v="${esc(o)}">${o}</button>
+      </div>
+    `).join('');
+
+    $('wish-list').querySelectorAll('.wish-btn').forEach(btn => {
+      btn.onclick = () => {
+        if (done) return;
+        if (btn.dataset.v === w.ans) {
+          done = true;
+          btn.classList.add('good');
+          blowCandles();
+          good(btn, 20);
+          confetti(55);
+          setFb('🎂 Harika bir kutlama sözü! Nezaketinle herkesi çok mutlu ettin.', 'ok');
+          say('', w.ans);
+          later(() => { rIdx++; loadWishRound(); }, 2200);
+        } else {
+          btn.classList.add('bad');
+          setFb('Doğum günü kutlarken “İyi ki doğdun”, “Mutlu yıllar”, “Doğum gününüz kutlu olsun” deriz.', 'bad');
+          bad(btn);
+        }
+      };
+    });
+  }
+
+  loadWishRound();
+}
+
+/* ================= AŞAMA YÖNETİMİ VE SERTİFİKA ================= */
+const MECH = [
+  {
+    label: '3B Kavram Atölyesi',
+    e: '🧊',
+    init: stage1ConceptStudio,
+    da: 'yonerge_1.mp3',
+    dir: '3 boyutlu küplere dokunarak çevir; Yaş, Saygı, Söz, Nezaket ve Hitap kavramlarını sesli öğren.',
+    done: 'Yaş, Saygı, Söz, Nezaket ve Türkiye’deki güzel hitap kültürümüzü öğrendin.'
+  },
+  {
+    label: 'Sayı ve Yaş Laboratuvarı',
+    e: '🧲',
+    init: stage2NumberLab,
+    da: 'yonerge_2.mp3',
+    dir: 'Onluk (50) ve Birlik (3) blokları seçip birleştirerek (53 - elli üç) yaşları Türkçe oluştur.',
+    done: '1-100 arası sayılarda onluk ve birlikleri birleştirerek yaşları Türkçe söyledin.'
+  },
+  {
+    label: 'Yaş Merdiveni & Sen/Siz',
+    e: '⚖️',
+    init: stage3LadderAndScale,
+    da: 'yonerge_3.mp3',
+    dir: 'Kişileri Çocuk, Genç ve Yetişkin basamaklarına yerleştir; ardından Sen ve Siz kantarını dengele.',
+    done: 'Çocuk, genç, yetişkin ve akran kavramları ile Sen/Siz uyumunu başardın.'
+  },
+  {
+    label: 'Mevsimler & Doğum Ayı',
+    e: '🌸',
+    init: stage4SeasonsAndMonths,
+    da: 'yonerge_4.mp3',
+    dir: 'Mevsimler ve aylar tablosundan doğum ayını ve gün sayısını seçerek Türkçe seslendir.',
+    done: 'Mevsimleri, ayları ve doğum gününü Türkçe sayılarla harika seslendirdin.'
+  },
+  {
+    label: 'Hitap Köprüsü',
+    e: '🌉',
+    init: stage5HitapBridge,
+    da: 'yonerge_5.mp3',
+    dir: 'İki kişinin yaşlarını karşılaştır; Abi, Abla, Amca, Teyze veya Akran hitaplarından doğru olanı seç.',
+    done: 'Yaş farklarına göre kime nasıl seslenileceğini eksiksiz tamamladın.'
+  },
+  {
+    label: '3B Doğum Günü Partisi',
+    e: '🎂',
+    init: stage6Birthday3D,
+    da: 'yonerge_6.mp3',
+    dir: '3 boyutlu pastanın mumlarını üfle ve doğum günü kutlanan kişiye en nazik kutlama sözünü söyle.',
+    done: 'Doğum günü kutlama sözlerini ve güzel dilekleri nezaketle kullandın!'
+  }
+];
+
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id));
+  $('directive').classList.toggle('on', id === 'stage');
+}
+
+function updatePill(n) {
+  document.querySelectorAll('#steps .step').forEach((e, i) => {
+    e.classList.toggle('on', i + 1 === n);
+    e.classList.toggle('done', i + 1 < n);
+  });
+  $('stagelabel').textContent = n ? `Aşama ${n}/${MECH.length}: ${MECH[n - 1].label}` : 'Başlıyoruz';
+}
+
+function setDirective(text, file) {
+  $('dir-text').textContent = text;
+  const b = $('dir-spk');
+  b.dataset.a = file || '';
+  b.dataset.t = text;
+}
+
+function startStage(n) {
+  clearTimers(); S.gen++; S.stage = n; S.startScore = S.score; S.lives = 3;
+  renderHud();
+  const m = MECH[n - 1];
+  go('stage');
+  updatePill(n);
+  setDirective(m.dir, m.da);
+  const R = $('stage');
+  R.innerHTML = '';
+  m.init(R);
+}
+
+function stageDone(n) {
+  clearTimers(); S.gen++;
+  if (n === MECH.length) SFX.win(); else SFX.ok();
+  confetti(140);
+  const m = MECH[n - 1], last = n === MECH.length;
+  overlay({
+    emoji: m.e,
+    title: `${n}. Aşama Tamamlandı!`,
+    text: m.done,
+    stats: [`⭐ ${S.score} Puan`, `⏱️ ${fmt(Date.now() - S.t0)}`, `❤️ ${S.lives} Can`],
+    btn: last ? '🏅 Sertifikamı Göster ▶' : 'Sıradaki Aşama ▶',
+    fn: () => last ? finishGame() : startStage(n + 1)
+  });
+}
+
+function finishGame() {
+  clearTimers(); S.gen++; go('s-end');
+  $('stagelabel').textContent = 'Tebrikler!';
+  document.querySelectorAll('#steps .step').forEach(e => { e.classList.remove('on'); e.classList.add('done'); });
+  $('c-name').textContent = S.name;
+  $('c-score').textContent = S.score;
+  $('c-time').textContent = fmt(Date.now() - S.t0);
+  $('c-bday').textContent = S.userBday;
+  $('c-date').textContent = new Date().toLocaleDateString('tr-TR');
+  S.t0 = 0;
+  confetti(200);
+  say('alkis.mp3', `Tebrikler ${S.name}! Yaşa Saygı, Söze Nezaket oyununu başarıyla tamamladın!`);
+}
+
+async function downloadCert() {
+  const node = $('cert');
+  const safe = S.name.replace(/[\\/:*?"<>|]/g, '').trim().replace(/\s+/g, '_');
+  try {
+    if (typeof html2canvas !== 'function') throw new Error('Sertifika aracı yüklenemedi.');
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas = await html2canvas(node, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.95));
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = `Yasa_Saygi_Soze_Nezaket_${safe || 'Ogrenci'}.jpg`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch (err) {
+    toast('Sertifika indirilirken bir sorun oluştu.');
+  }
+}
+
+/* Başlangıç Bağlantıları */
+$('f-name').addEventListener('submit', e => {
+  e.preventDefault();
+  const n = $('in-name').value.trim().replace(/\s+/g, ' ');
+  if (n.length < 2) {
+    $('name-err').textContent = 'Lütfen adını kutuya yaz!';
+    SFX.bad();
+    return;
+  }
+  S.name = n.charAt(0).toLocaleUpperCase('tr-TR') + n.slice(1);
+  S.score = 0;
+  S.t0 = Date.now();
+  if (!S.mute) bgm.play().catch(() => {});
+  startStage(1);
+});
+
+$('btn-again').onclick = () => location.reload();
+$('btn-cert').onclick = downloadCert;
+$('btn-mute').onclick = () => {
+  S.mute = !S.mute;
+  $('btn-mute').textContent = S.mute ? '🔇' : '🔊';
+  if (S.mute) { stopVoice(); bgm.pause(); }
+  else if (S.t0) bgm.play().catch(() => {});
+};
+if (document.documentElement.requestFullscreen) {
+  $('btn-full').onclick = () => {
+    try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); } catch (e) {}
+  };
+} else {
+  $('btn-full').style.display = 'none';
+}
+
+$('steps').innerHTML = MECH.map(() => '<span class="step"></span>').join('');
+$('tiles').innerHTML = MECH.map((m, i) => `
+  <div class="card tile">
+    <span class="te">${m.e}</span>
+    <div><b>${i + 1}. ${m.label}</b></div>
+  </div>
+`).join('');
+renderHud();
+updatePill(0);
+</script>
+</body>
+</html>
